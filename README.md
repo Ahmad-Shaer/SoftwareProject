@@ -1,6 +1,7 @@
 
 # SoftwareProject
 Graduation Project 1 (semester 1 2023/2024) 
+
 Students Names :  Ahmad Shaer, Arwa Maroof
 ## traveler_nest
   Our software graduation project aims to develop a dedicated hotel booking platform tailored for
