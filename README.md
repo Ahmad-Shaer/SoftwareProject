@@ -2,6 +2,8 @@
 
 graduation Project 2023/2024 
 
+## Goal 
+
   Our software graduation project aims to develop a dedicated hotel booking platform tailored for
 Palestine. This comprehensive application will enable users to effortlessly explore and reserve
 accommodations throughout the region. Key features include an intuitive user interface, real-time
