@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import 'package:arrrrrrrrrrrrrrrrra/GetStartedScreen.dart';
 import 'package:arrrrrrrrrrrrrrrrra/SplashScreen.dart';
 import 'package:arrrrrrrrrrrrrrrrra/LoginPage.dart';
@@ -32,3 +33,9 @@ class MyApp extends StatelessWidget {
   ));
 
 }
+=======
+import 'package:flutter/material.dart';
+
+void main() => runApp(MaterialApp());
+
+>>>>>>> 35427ad9b7741795bdd555610dcd25f13503da69

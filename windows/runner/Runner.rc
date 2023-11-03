@@ -89,6 +89,7 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
+<<<<<<< HEAD
             VALUE "CompanyName", "com.example" "\0"
             VALUE "FileDescription", "arrrrrrrrrrrrrrrrra" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
@@ -96,6 +97,15 @@ BEGIN
             VALUE "LegalCopyright", "Copyright (C) 2023 com.example. All rights reserved." "\0"
             VALUE "OriginalFilename", "arrrrrrrrrrrrrrrrra.exe" "\0"
             VALUE "ProductName", "arrrrrrrrrrrrrrrrra" "\0"
+=======
+            VALUE "CompanyName", "gradution_project.com" "\0"
+            VALUE "FileDescription", "traveler_nest" "\0"
+            VALUE "FileVersion", VERSION_AS_STRING "\0"
+            VALUE "InternalName", "traveler_nest" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2023 gradution_project.com. All rights reserved." "\0"
+            VALUE "OriginalFilename", "traveler_nest.exe" "\0"
+            VALUE "ProductName", "traveler_nest" "\0"
+>>>>>>> 35427ad9b7741795bdd555610dcd25f13503da69
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

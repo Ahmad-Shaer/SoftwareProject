@@ -1,6 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
+<<<<<<< HEAD
         android:label="arrrrrrrrrrrrrrrrra"
+=======
+        android:label="traveler_nest"
+>>>>>>> 35427ad9b7741795bdd555610dcd25f13503da69
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

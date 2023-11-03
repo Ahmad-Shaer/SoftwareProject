@@ -1,11 +1,20 @@
 {
+<<<<<<< HEAD
     "name": "arrrrrrrrrrrrrrrrra",
     "short_name": "arrrrrrrrrrrrrrrrra",
+=======
+    "name": "traveler_nest",
+    "short_name": "traveler_nest",
+>>>>>>> 35427ad9b7741795bdd555610dcd25f13503da69
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
+<<<<<<< HEAD
     "description": "A new Flutter project.",
+=======
+    "description": "graduation Project",
+>>>>>>> 35427ad9b7741795bdd555610dcd25f13503da69
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

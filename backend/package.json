@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "name": "backendd",
   "version": "1.0.0",
   "main": "index.js",
@@ -19,4 +20,16 @@
   "devDependencies": {
     "nodemon": "^3.0.1"
   }
+=======
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+>>>>>>> 35427ad9b7741795bdd555610dcd25f13503da69
 }
