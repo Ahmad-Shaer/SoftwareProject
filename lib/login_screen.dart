@@ -51,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => CityPage(),
+          builder: (context) => HotelBookingApp(),
         ),
       );
     } else {

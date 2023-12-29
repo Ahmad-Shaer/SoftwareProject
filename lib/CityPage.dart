@@ -1,236 +1,198 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'MapApp.dart'; // Import your map screen file
 
 void main() {
-  runApp(MaterialApp(
-    home: CityPage(),
-  ));
+  runApp(HotelBookingApp());
 }
 
-class CityPage extends StatefulWidget {
+class HotelBookingApp extends StatelessWidget {
   @override
-  _CityPageState createState() => _CityPageState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: MainPage(),
+    );
+  }
 }
 
-class _CityPageState extends State<CityPage> {
-  int _currentPage = 0;
-  final PageController _pageController = PageController();
-  List<List<String>> _buttonImages = [
-    ['assets/jer.png', 'assets/nablus.png', 'assets/ramallah.png', 'assets/hebron.png'],
-    ['assets/betlhm.png', 'assets/ber.png', 'assets/jenin.png', 'assets/jerecho.png'],
-    ['assets/qal.png', 'assets/slfeet.png', 'assets/tubas.png', 'assets/tulkarm.png'],
-  ];
-
-  @override
-  void initState() {
-    super.initState();
-    _pageController.addListener(() {
-      setState(() {
-        _currentPage = _pageController.page!.round();
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
-
+class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60.0),
-        child: AppBar(
-          backgroundColor: Colors.blue.withOpacity(0.1),
-          leading: GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => UserProfilePage()),
-              );
-            },
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/hebron.png'),
-            ),
-          ),
-        ),
+      appBar: AppBar(
+        title: Text('Hello User!'),
       ),
-      body: Stack(
-        children: [
-          Image.asset(
-            'assets/background.png',
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-          PageView.builder(
-            controller: _pageController,
-            itemCount: _buttonImages.length,
-            onPageChanged: (int page) {
-              setState(() {
-                _currentPage = page;
-              });
-            },
-            itemBuilder: (context, index) {
-              return _buildPage(_buttonImages[index]);
-            },
-          ),
-          if (_currentPage > 0)
-            Positioned(
-              bottom: 20,
-              left: 20,
-              child: ElevatedButton(
-                onPressed: () {
-                  _pageController.previousPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                },
-                child: Icon(Icons.arrow_back),
-              ),
-            ),
-          if (_currentPage < _buttonImages.length - 1)
-            Positioned(
-              bottom: 20,
-              right: 20,
-              child: ElevatedButton(
-                onPressed: () {
-                  _pageController.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                },
-                child: Icon(Icons.arrow_forward),
-              ),
-            ),
-          // Positioned(
-          //   bottom: 20,
-          //   left: 50,
-          //   child: IconButton(
-          //     icon: Icon(Icons.location_on),
-          //     onPressed: () {
-          //       Navigator.push(
-          //         context,
-          //         MaterialPageRoute(builder: (context) => MapApp()), // Navigate to your MapScreen
-          //       );
-          //     },
-          //   ),
-          // ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildPage(List<String> buttonImages) {
-    return Center(
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: Container(
-          width: 450,
-          height: 400,
-          decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.5),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            ListTile(
+              title: Row(
                 children: [
-                  _buildButton(buttonImages[0]),
-                  _buildButton(buttonImages[1]),
+                  CircleAvatar(
+                    backgroundImage: AssetImage('assets/city_0.png'),
+                  ),
+                  SizedBox(width:30),
+                  Text(
+                    'Hello User',
+                    style: TextStyle(fontSize: 18),
+                  ),
                 ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _buildButton(buttonImages[2]),
-                  _buildButton(buttonImages[3]),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildButton(String buttonImage) {
-    return Container(
-      height: 150,
-      width: 150,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        image: DecorationImage(
-          image: AssetImage(buttonImage),
-          fit: BoxFit.cover,
-        ),
-      ),
-    );
-  }
-}
-
-class UserProfilePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: null,
-      body: Padding(
-        padding: EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CircleAvatar(
-              radius: 50,
-              backgroundImage: AssetImage('assets/logo1.png'),
             ),
-            SizedBox(height: 20),
-            Text(
-              'User Name',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10),
-            Text(
-              'useremail@example.com',
-              style: TextStyle(fontSize: 16, color: Colors.grey),
-            ),
-            SizedBox(height: 20),
-            _buildUserInfoRow('Country', Icons.location_on),
-            SizedBox(height: 10),
-            _buildUserInfoRow('City', Icons.location_city),
-            SizedBox(height: 10),
-            _buildUserInfoRow('Phone Number', Icons.phone),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Handle edit profile action
+            // DrawerHeader(
+            SizedBox(height: 40),
+            ListTile(
+              leading: Icon(Icons.home),
+              title: Text('Home'),
+              onTap: () {
+                // Handle Home menu item tap
               },
-              child: Text('Edit Profile'),
             ),
-            SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                // Handle change password action
+            ListTile(
+              leading: Icon(Icons.favorite),
+              title: Text('Favorite Booking'),
+              onTap: () {
+                // Handle Favorite Booking menu item tap
               },
-              child: Text('Change Password'),
             ),
-            // Add more buttons for other actions if needed
+            ListTile(
+              leading: Icon(Icons.event),
+              title: Text('My Booking'),
+              onTap: () {
+                // Handle My Booking menu item tap
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text('Profile'),
+              onTap: () {
+                // Handle Profile menu item tap
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.lock),
+              title: Text('Change Password'),
+              onTap: () {
+                // Handle Change Password menu item tap
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.info),
+              title: Text('About App'),
+              onTap: () {
+                // Handle About App menu item tap
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.feedback),
+              title: Text('Feedback'),
+              onTap: () {
+                // Handle Feedback menu item tap
+              },
+            ),
           ],
         ),
       ),
-    );
-  }
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: InkWell(
+              onTap: () {
+                Scaffold.of(context).openDrawer(); // Opens the drawer
+              },
+              child: Row(
 
-  Widget _buildUserInfoRow(String text, IconData icon) {
-    return Row(
-      children: [
-        Icon(
-          icon,
-          size: 20,
-          color: Colors.grey,
-        ),
-        SizedBox(width: 10),
-        Text(
-          text,
-          style: TextStyle(fontSize: 16, color: Colors.black),
-        ),
-      ],
+              ),
+            ),
+          ),
+          SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Text(
+              'Cities',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+          ),
+          buildImageSlider('city', 12),
+          SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Text(
+              'Favorites',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+          ),
+          buildImageSlider('favorite', 3),
+          SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Text(
+              'Most Booked',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+          ),
+          buildImageSlider('booked', 2),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.book),
+            label: 'Booking',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.notifications),
+            label: 'Notification',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Search',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat),
+            label: 'Chat',
+          ),
+        ],
+        type: BottomNavigationBarType.fixed,
+      ),
     );
   }
+}
+////////slides
+Widget buildImageSlider(String category, int count) {
+  return CarouselSlider(
+    options: CarouselOptions(
+      height: 100,
+      aspectRatio: 16 / 9,
+      viewportFraction: 0.8,
+      initialPage: 0,
+      enableInfiniteScroll: true,
+      reverse: false,
+      autoPlay: true,
+      autoPlayInterval: Duration(seconds: 3),
+      autoPlayAnimationDuration: Duration(milliseconds: 800),
+      autoPlayCurve: Curves.fastOutSlowIn,
+      enlargeCenterPage: true,
+      scrollDirection: Axis.horizontal,
+    ),
+    items: List.generate(
+      count,
+          (index) => Container(
+        margin: EdgeInsets.all(5.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8.0),
+          image: DecorationImage(
+            image: AssetImage('assets/${category}_$index.png'), // Corrected interpolation
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    ),
+  );
 }
