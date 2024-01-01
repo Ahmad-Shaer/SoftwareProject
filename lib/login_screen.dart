@@ -36,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final String password = passwordController.text;
 
     final response = await http.post(
-      Uri.parse('http://192.168.1.9:3000/login'),
+      Uri.parse('http://192.168.1.9:3000/user/login'),
       headers: <String, String>{
         'Content-Type': 'application/json',
       },
