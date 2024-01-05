@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: BookingScreen(),
     );
   }
 }
 
 class BookingScreen extends StatefulWidget {
+  const BookingScreen({super.key});
+
   @override
   _BookingScreenState createState() => _BookingScreenState();
 }
@@ -43,7 +47,7 @@ class _BookingScreenState extends State<BookingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Booking Form'),
+        title: const Text('Booking Form'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -55,22 +59,22 @@ class _BookingScreenState extends State<BookingScreen> {
                 'assets/bord1.png', // Path to your image in the assets folder
                 fit: BoxFit.cover,
               ),
-            ),            SizedBox(height: 20),
+            ),            const SizedBox(height: 20),
             Row(
               children: [
                 Expanded(
                   child: TextField(
                     controller: firstNameController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'First Name',
                     ),
                   ),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Expanded(
                   child: TextField(
                     controller: lastNameController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Last Name',
                     ),
                   ),
@@ -79,75 +83,75 @@ class _BookingScreenState extends State<BookingScreen> {
             ),
             // Add other rows for , , state, etc. following a similar structure
             // You can use TextFields, DatePickers, Checkboxes, Dropdowns, etc. based on your requirements
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               children: [
                 Expanded(
                   child: TextField(
                     controller: address1Controller,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Address1',
                     ),
                   ),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Expanded(
                   child: TextField(
                     controller: address2Controller,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Address2',
                     ),
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               children: [
                 Expanded(
                   child: TextField(
                     controller: cityController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'City',
                     ),
                   ),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Expanded(
                   child: TextField(
                     controller: stateController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'State',
                     ),
                   ),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Expanded(
                   child: TextField(
                     controller: zipcodeController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Zip Code',
                     ),
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               children: [
                 Expanded(
                   child: TextField(
                     controller: phoneController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Phone',
                     ),
                   ),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Expanded(
                   child: TextField(
                     controller: emailController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Email',
                     ),
                   ),
@@ -156,7 +160,7 @@ class _BookingScreenState extends State<BookingScreen> {
             ),
 
 
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             Expanded(
               child: Column(
                 children: [
@@ -175,12 +179,12 @@ class _BookingScreenState extends State<BookingScreen> {
                         });
                       }
                     },
-                    child: Text('Check-in Date'),
+                    child: const Text('Check-in Date'),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   TextField(
                     controller: checkInDateController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Check-in Date',
                     ),
                     enabled: false, // Disable editing the date directly
@@ -188,7 +192,7 @@ class _BookingScreenState extends State<BookingScreen> {
                 ],
               ),
             ),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             Expanded(
               child: Column(
                 children: [
@@ -207,12 +211,12 @@ class _BookingScreenState extends State<BookingScreen> {
                         });
                       }
                     },
-                    child: Text('Check-out Date'),
+                    child: const Text('Check-out Date'),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   TextField(
                     controller: checkOutDateController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Check-out Date',
                     ),
                     enabled: false, // Disable editing the date directly
@@ -233,7 +237,7 @@ class _BookingScreenState extends State<BookingScreen> {
                     });
                   },
                 ),
-                Text('Standard'),
+                const Text('Standard'),
                 Checkbox(
                   value: isChecked1,
                   onChanged: (value) {
@@ -242,7 +246,7 @@ class _BookingScreenState extends State<BookingScreen> {
                     });
                   },
                 ),
-                Text('Deluxe'),
+                const Text('Deluxe'),
                 Checkbox(
                   value: isChecked2,
                   onChanged: (value) {
@@ -251,16 +255,16 @@ class _BookingScreenState extends State<BookingScreen> {
                     });
                   },
                 ),
-                Text('Suite'),
+                const Text('Suite'),
               ],
             ),
 
-            SizedBox(width: 10),
-            SizedBox(height: 20),
+            const SizedBox(width: 10),
+            const SizedBox(height: 20),
             Row(
               children: [
-                Text('Number of Adults: '),
-                SizedBox(width: 10),
+                const Text('Number of Adults: '),
+                const SizedBox(width: 10),
                 DropdownButton<int>(
                   value: selectedAdults,
                   onChanged: (newValue) {

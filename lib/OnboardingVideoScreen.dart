@@ -3,6 +3,8 @@ import 'login_screen.dart';
 import 'signup_screen.dart';
 
 class OnboardingVideoScreen extends StatefulWidget {
+  const OnboardingVideoScreen({super.key});
+
   @override
   _OnboardingVideoScreenState createState() => _OnboardingVideoScreenState();
 }
@@ -36,11 +38,11 @@ class _OnboardingVideoScreenState extends State<OnboardingVideoScreen> {
           color: Colors.black.withOpacity(0.6),
           borderRadius: BorderRadius.circular(20),
         ),
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 CircleAvatar(
@@ -58,15 +60,15 @@ class _OnboardingVideoScreenState extends State<OnboardingVideoScreen> {
                 ),
               ],
             ),
-            SizedBox(height: 20.0),
-            Divider(
+            const SizedBox(height: 20.0),
+            const Divider(
               height: 30,
               color: Colors.white,
               thickness: 0.9,
             ),
-            SizedBox(height: 20.0),
-            _buildAnimatedButton(context, 'Login', LoginScreen(), buttonColorLogin),
-            SizedBox(height: 10),
+            const SizedBox(height: 20.0),
+            _buildAnimatedButton(context, 'Login', const LoginScreen(), buttonColorLogin),
+            const SizedBox(height: 10),
             _buildAnimatedButton(context, 'Sign Up', signup_screen(), buttonColorSignUp),
           ],
         ),
@@ -77,7 +79,7 @@ class _OnboardingVideoScreenState extends State<OnboardingVideoScreen> {
   Widget _buildAnimatedButton(BuildContext context, String text, Widget page, Color buttonColor) {
     return TweenAnimationBuilder<double>(
       tween: Tween<double>(begin: 0, end: 1),
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
       builder: (context, double value, child) {
         return MouseRegion(
           onEnter: (_) {
@@ -106,7 +108,7 @@ class _OnboardingVideoScreenState extends State<OnboardingVideoScreen> {
               );
             },
             child: AnimatedContainer(
-              duration: Duration(milliseconds: 300),
+              duration: const Duration(milliseconds: 300),
               width: 200,
               height: 50,
               decoration: BoxDecoration(
@@ -116,7 +118,7 @@ class _OnboardingVideoScreenState extends State<OnboardingVideoScreen> {
               alignment: Alignment.center,
               child: Text(
                 text,
-                style: TextStyle(fontSize: 20, color: Colors.white),
+                style: const TextStyle(fontSize: 20, color: Colors.white),
               ),
             ),
           ),
@@ -127,7 +129,7 @@ class _OnboardingVideoScreenState extends State<OnboardingVideoScreen> {
 }
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: OnboardingVideoScreen(),
   ));
 }

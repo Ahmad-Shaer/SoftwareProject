@@ -6,7 +6,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key});
+  const MyApp({super.key, Key? Key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,12 +16,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
 
       ),
-      home: SplashScreen(),
+      home: const SplashScreen(),
     );
   }
 }
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
@@ -33,10 +35,10 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void navigateToNextScreen() async {
-    await Future.delayed(Duration(seconds: 5));
+    await Future.delayed(const Duration(seconds: 5));
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => SecondImageScreen()),
+      MaterialPageRoute(builder: (context) => const SecondImageScreen()),
     );
   }
 
@@ -61,6 +63,8 @@ class _SplashScreenState extends State<SplashScreen> {
 }
 
 class SecondImageScreen extends StatelessWidget {
+  const SecondImageScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,10 +75,10 @@ class SecondImageScreen extends StatelessWidget {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => LanguageSelectionScreen()),
+            MaterialPageRoute(builder: (context) => const LanguageSelectionScreen()),
           );
         },
-        child: Container(
+        child: SizedBox(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           child: Image.asset(
@@ -88,6 +92,8 @@ class SecondImageScreen extends StatelessWidget {
 }
 
 class LanguageSelectionScreen extends StatefulWidget {
+  const LanguageSelectionScreen({super.key});
+
   @override
   _LanguageSelectionScreenState createState() => _LanguageSelectionScreenState();
 }
@@ -115,7 +121,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
           ),
           Center(
             child: Container(
-              padding: EdgeInsets.all(40.0),
+              padding: const EdgeInsets.all(40.0),
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.3),
                 borderRadius: BorderRadius.circular(30.0),
@@ -123,14 +129,14 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     'Select Language',
                     style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 20,width: 50),
+                  const SizedBox(height: 20,width: 50),
                   DropdownButton<String>(
                     value: _selectedLanguage,
                     items: <String>['English', 'Arabic', 'Spanish', 'French']
@@ -139,7 +145,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                         value: value,
                         child: Text(
                           value,
-                          style: TextStyle(fontSize: 18),
+                          style: const TextStyle(fontSize: 18),
                         ),
                       );
                     }).toList(),
@@ -149,20 +155,20 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                       });
                     },
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
                       print('Selected Language: $_selectedLanguage');
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => BoardingScreen()),
+                        MaterialPageRoute(builder: (context) => const BoardingScreen()),
                       );
                     },
                     child: Container(
                       width: 200,
                       height: 50,
                       alignment: Alignment.center,
-                      child: Text(
+                      child: const Text(
                         'Select Language',
                         style: TextStyle(fontSize: 20),
                       ),
@@ -179,6 +185,8 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
 }
 
 class BoardingScreen extends StatefulWidget {
+  const BoardingScreen({super.key});
+
   @override
   _BoardingScreenState createState() => _BoardingScreenState();
 }
@@ -248,11 +256,11 @@ class _BoardingScreenState extends State<BoardingScreen> {
             child: ElevatedButton(
               onPressed: () {
                 if (_currentPage < 2) {
-                  _pageController.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
+                  _pageController.nextPage(duration: const Duration(milliseconds: 500), curve: Curves.ease);
                 } else {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => OnboardingVideoScreen()),
+                    MaterialPageRoute(builder: (context) => const OnboardingVideoScreen()),
                   );
                 }
               },
@@ -269,17 +277,17 @@ class _BoardingScreenState extends State<BoardingScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SizedBox(height: 50),
+        const SizedBox(height: 50),
         Text(
           title,
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         Text(
           description,
           textAlign: TextAlign.center,
@@ -288,7 +296,7 @@ class _BoardingScreenState extends State<BoardingScreen> {
             color: Colors.grey[600],
           ),
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         Expanded(
           child: Image.asset(
             imagePath,

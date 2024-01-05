@@ -2,30 +2,34 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'CityHotelPage.dart';
 void main() {
-  runApp(HotelBookingApp());
+  runApp(const HotelBookingApp());
 }
 
 class HotelBookingApp extends StatelessWidget {
+  const HotelBookingApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: MainPage(),
     );
   }
 }
 
 class MainPage extends StatelessWidget {
+  const MainPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Hello User!'),
+        title: const Text('Hello User!'),
       ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            ListTile(
+            const ListTile(
               title: Row(
                 children: [
                   CircleAvatar(
@@ -40,46 +44,46 @@ class MainPage extends StatelessWidget {
               ),
             ),
             // DrawerHeader(
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
             ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Home'),
+              leading: const Icon(Icons.home),
+              title: const Text('Home'),
               onTap: () {
                 // Handle Home menu item tap
               },
             ),
             ListTile(
-              leading: Icon(Icons.favorite),
-              title: Text('Favorite Booking'),
+              leading: const Icon(Icons.favorite),
+              title: const Text('Favorite Booking'),
               onTap: () {
                 // Handle Favorite Booking menu item tap
               },
             ),
             ListTile(
-              leading: Icon(Icons.event),
-              title: Text('My Booking'),
+              leading: const Icon(Icons.event),
+              title: const Text('My Booking'),
               onTap: () {
                 // Handle My Booking menu item tap
               },
             ),
             ListTile(
-              leading: Icon(Icons.person),
-              title: Text('Profile'),
+              leading: const Icon(Icons.person),
+              title: const Text('Profile'),
               onTap: () {
                 // Handle Profile menu item tap
               },
             ),
             ListTile(
-              leading: Icon(Icons.lock),
-              title: Text('Change Password'),
+              leading: const Icon(Icons.lock),
+              title: const Text('Change Password'),
               onTap: () {
                 // Handle Change Password menu item tap
               },
             ),
             ListTile(
-              leading: Icon(Icons.settings
+              leading: const Icon(Icons.settings
               ),
-              title: Text('Setting'),
+              title: const Text('Setting'),
               onTap: () {
                 // Handle Change Password menu item tap
               },
@@ -87,23 +91,23 @@ class MainPage extends StatelessWidget {
 
 
             ListTile(
-              leading: Icon(Icons.info),
-              title: Text('About App'),
+              leading: const Icon(Icons.info),
+              title: const Text('About App'),
               onTap: () {
                 // Handle About App menu item tap
               },
             ),
             ListTile(
-              leading: Icon(Icons.feedback),
-              title: Text('Feedback'),
+              leading: const Icon(Icons.feedback),
+              title: const Text('Feedback'),
               onTap: () {
                 // Handle Feedback menu item tap
               },
             ),
 
             ListTile(
-              leading: Icon(Icons.logout),
-              title: Text(' Log Out'),
+              leading: const Icon(Icons.logout),
+              title: const Text(' Log Out'),
               onTap: () {
                 // Handle About App menu item tap
               },
@@ -122,12 +126,12 @@ class MainPage extends StatelessWidget {
                 onTap: () {
                   Scaffold.of(context).openDrawer(); // Opens the drawer
                 },
-                child: Row(
+                child: const Row(
                 ),
               ),
             ),
             //SizedBox(height: 20),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: SizedBox(
@@ -136,45 +140,45 @@ class MainPage extends StatelessWidget {
                   children: [
                     Expanded(
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Search',
                           border: OutlineInputBorder(),
                         ),
                       ),
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     ElevatedButton(
                       onPressed: () {
                         // Add functionality for the "Go" button
                       },
-                      child: Text('Go'),
+                      child: const Text('Go'),
                     ),
                   ],
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.0),
               child: Text(
                 'Cities',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
             ),
             buildImageSlider(context, 'city', 12),
-            SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            const SizedBox(height: 20),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.0),
               child: Text(
                 'Favorites',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
             ),
             buildImageSlider(context, 'favorite', 3),
-            SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            const SizedBox(height: 20),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.0),
               child: Text(
                 'Most Booked',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -187,7 +191,7 @@ class MainPage extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
@@ -232,7 +236,7 @@ Widget buildImageSlider(BuildContext context, String category, int count) {
     // Add mappings for each image accordingly
   };
 
-  return Container(
+  return SizedBox(
     width: 450,
     child: CarouselSlider(
       options: CarouselOptions(
@@ -243,7 +247,7 @@ Widget buildImageSlider(BuildContext context, String category, int count) {
         enableInfiniteScroll: true,
         reverse: false,
         autoPlay: false,
-        autoPlayAnimationDuration: Duration(milliseconds: 800),
+        autoPlayAnimationDuration: const Duration(milliseconds: 800),
         autoPlayCurve: Curves.fastOutSlowIn,
         enlargeCenterPage: true,
         scrollDirection: Axis.horizontal,
@@ -255,14 +259,14 @@ Widget buildImageSlider(BuildContext context, String category, int count) {
             if (index == 6) { // Check if it's the Nablus slide
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => CityHotelPage()), // Ensure correct widget name
+                MaterialPageRoute(builder: (context) => const CityHotelPage()), // Ensure correct widget name
               );
             }
           },
           child: Stack(
             children: [
               Container(
-                margin: EdgeInsets.all(5.0),
+                margin: const EdgeInsets.all(5.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.0),
                   image: DecorationImage(
@@ -276,7 +280,7 @@ Widget buildImageSlider(BuildContext context, String category, int count) {
                 left: 8.0,
                 child: Text(
                   slideTexts['${category}_$index.png'] ?? '',
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,

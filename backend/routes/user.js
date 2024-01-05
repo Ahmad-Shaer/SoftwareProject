@@ -1,7 +1,20 @@
 const express = require("express");
-const router = require.Router()
+const router = express.Router();
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt');
 
+const { Schema, model } = mongoose;
 
+const userSchema = new Schema({
+  username: String,
+  email: String,
+  password: String,
+  country: String,
+  city: String,
+  phoneNumber: String,
+});
+const User = model('User', userSchema);
 
 router.post('/signup', async (req, res) => {
   try {
@@ -55,4 +68,4 @@ router.post('/login', async (req, res) => {
   }
 });
 
-model.exports = router;
+module.exports = router;

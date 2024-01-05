@@ -13,6 +13,8 @@ class signup_screen extends StatelessWidget {
   final TextEditingController cityController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
 
+  signup_screen({super.key});
+
   Future<void> signUp(BuildContext context) async {
     final String username = usernameController.text;
     final String email = emailController.text;
@@ -34,14 +36,14 @@ class signup_screen extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Empty Fields'),
-            content: Text('Please fill in all fields.'),
+            title: const Text('Empty Fields'),
+            content: const Text('Please fill in all fields.'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );
@@ -59,14 +61,14 @@ class signup_screen extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Invalid Email'),
-            content: Text('Please enter a valid email address.'),
+            title: const Text('Invalid Email'),
+            content: const Text('Please enter a valid email address.'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );
@@ -81,14 +83,14 @@ class signup_screen extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Password Mismatch'),
-            content: Text('Please check your password and confirm password.'),
+            title: const Text('Password Mismatch'),
+            content: const Text('Please check your password and confirm password.'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );
@@ -98,7 +100,8 @@ class signup_screen extends StatelessWidget {
     }
 
     final response = await http.post(
-      Uri.parse('http://192.168.1.9:3000/user/signup'),
+      Uri.parse('http://192.168.1.9:8000/user/signup'),
+
       headers: <String, String>{
         'Content-Type': 'application/json',
       },
@@ -118,18 +121,18 @@ class signup_screen extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Registration Successful'),
-            content: Text('You have successfully registered.'),
+            title: const Text('Registration Successful'),
+            content: const Text('You have successfully registered.'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(); // Close the dialog
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => LoginScreen()),
+                    MaterialPageRoute(builder: (context) => const LoginScreen()),
                   ); // Navigate to login screen
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );
@@ -146,7 +149,7 @@ class signup_screen extends StatelessWidget {
     return Scaffold(
       body: Container(
         padding: const EdgeInsets.only(top: 100), // Adjust the top padding as needed
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/signup.gif'),
             fit: BoxFit.cover,
@@ -167,7 +170,7 @@ class signup_screen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text(
+                  const Text(
                     'JOIN US',
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -176,7 +179,7 @@ class signup_screen extends StatelessWidget {
                       color: Colors.black,
                     ),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   _buildInputField(Icons.person, 'User Name', controller: usernameController),
                   _buildInputField(Icons.email, 'Email', controller: emailController),
                   _buildInputField(Icons.lock, 'Password', isPassword: true, controller: passwordController),
@@ -184,7 +187,7 @@ class signup_screen extends StatelessWidget {
                   _buildInputField(Icons.location_on, 'Country', controller: countryController),
                   _buildInputField(Icons.location_city, 'City', controller: cityController),
                   _buildInputField(Icons.phone, 'Phone Number', controller: phoneNumberController),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   ElevatedButton(
                     onPressed: () {
                       signUp(context);
@@ -199,7 +202,7 @@ class signup_screen extends StatelessWidget {
                         },
                       ),
                     ),
-                    child: Text(
+                    child: const Text(
                       'Sign Up',
                       style: TextStyle(color: Colors.white),
                     ),
@@ -215,7 +218,7 @@ class signup_screen extends StatelessWidget {
 
   Widget _buildInputField(IconData icon, String labelText, {bool isPassword = false, TextEditingController? controller}) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 6),
+      margin: const EdgeInsets.symmetric(vertical: 6),
       child: TextField(
         controller: controller,
         obscureText: isPassword,

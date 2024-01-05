@@ -3,10 +3,12 @@ import 'package:carousel_slider/carousel_slider.dart';
 
 import 'BookingScreen.dart';
 void main() {
-  runApp(CityHotelPage());
+  runApp(const CityHotelPage());
 }
 
 class CityHotelPage extends StatelessWidget {
+  const CityHotelPage({super.key});
+
   @override
   Widget build(BuildContext context) {
 
@@ -14,8 +16,8 @@ class CityHotelPage extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(20.0),
+          const Padding(
+            padding: EdgeInsets.all(20.0),
             child: Text(
               'Welcome to City Hotels',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -25,7 +27,7 @@ class CityHotelPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               AnimatedContainer(
-                duration: Duration(milliseconds: 300),
+                duration: const Duration(milliseconds: 300),
                 width: 150, // Set button width
                 height: 50, // Set button height
                 child: ElevatedButton(
@@ -43,18 +45,18 @@ class CityHotelPage extends StatelessWidget {
                       },
                     ),
                   ),
-                  child: Text('Hotels'),
+                  child: const Text('Hotels'),
                 ),
               ),
               AnimatedContainer(
-                duration: Duration(milliseconds: 300),
+                duration: const Duration(milliseconds: 300),
                 width: 150, // Set button width
                 height: 50, // Set button height
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => VisaScreen()),
+                      MaterialPageRoute(builder: (context) => const VisaScreen()),
                     );
                   },
                   style: ButtonStyle(
@@ -68,7 +70,7 @@ class CityHotelPage extends StatelessWidget {
                       },
                     ),
                   ),
-                  child: Text('Payment'),
+                  child: const Text('Payment'),
                 ),
               ),
             ],
@@ -98,7 +100,7 @@ class CityHotelPage extends StatelessWidget {
       'Al Yasmeen Hotel is located in the center of Nablus and offers free Wi-Fi. This hotel was built to resemble the historic Arab rest houses that once existed on the Silk Road.',
     ];
 
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: CarouselSlider.builder(
         itemCount: slideImages.length,
@@ -111,7 +113,7 @@ class CityHotelPage extends StatelessWidget {
           reverse: false,
          // autoPlay: true,
           //autoPlayInterval: Duration(seconds: 3),
-          autoPlayAnimationDuration: Duration(milliseconds: 800),
+          autoPlayAnimationDuration: const Duration(milliseconds: 800),
           autoPlayCurve: Curves.fastOutSlowIn,
           enlargeCenterPage: true,
           scrollDirection: Axis.vertical, // Set slides to scroll vertically
@@ -121,11 +123,11 @@ class CityHotelPage extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => BookingScreen()), // Replace BookingScreen with your desired screen
+                MaterialPageRoute(builder: (context) => const BookingScreen()), // Replace BookingScreen with your desired screen
               );
             },
             child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 5.0),
+              margin: const EdgeInsets.symmetric(horizontal: 5.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.0),
                 image: DecorationImage(
@@ -137,19 +139,19 @@ class CityHotelPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Container(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     color: Colors.black.withOpacity(0.5),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           'Rating: ⭐️⭐️⭐️⭐️⭐️',
                           style: TextStyle(color: Colors.white),
                         ),
-                        SizedBox(height: 5),
+                        const SizedBox(height: 5),
                         Text(
                           slideDescriptions[index],
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                         ),
                       ],
                     ),
@@ -164,6 +166,8 @@ class CityHotelPage extends StatelessWidget {
   }
 }
 class VisaScreen extends StatelessWidget {
+  const VisaScreen({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -171,62 +175,62 @@ class VisaScreen extends StatelessWidget {
     return Scaffold(
       body: Container(
         color: Colors.grey.withOpacity(0.5),
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: ListView(
           children: [
-            Center(
+            const Center(
               child: Text(
                 'Credit Card',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
             ),
-            SizedBox(height: 20),
-            Center(
+            const SizedBox(height: 20),
+            const Center(
               child: Icon(
                 Icons.credit_card,
                 size: 100,
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             TextFormField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Card Number',
                 border: OutlineInputBorder(),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             TextFormField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Card Name',
                 border: OutlineInputBorder(),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
                   child: TextFormField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Exp Month',
                       border: OutlineInputBorder(),
                     ),
                   ),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Expanded(
                   child: TextFormField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Exp Year',
                       border: OutlineInputBorder(),
                     ),
                   ),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Expanded(
                   child: TextFormField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'CCN',
                       border: OutlineInputBorder(),
                     ),
@@ -234,7 +238,7 @@ class VisaScreen extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               children: [
 
@@ -250,15 +254,15 @@ class VisaScreen extends StatelessWidget {
               },
             ),
 
-            Text('Save Card'),
+            const Text('Save Card'),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 // Handle payment logic
               },
-              child: Text('PAY'),
+              child: const Text('PAY'),
             ),
           ],
         ),

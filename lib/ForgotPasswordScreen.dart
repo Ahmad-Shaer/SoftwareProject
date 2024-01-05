@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'OnboardingVideoScreen.dart';
-import 'package:flutter/material.dart';
 import 'login_screen.dart';
-import 'signup_screen.dart';
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: ForgotPasswordScreen(),
     );
   }
 }
 
 class ForgotPasswordScreen extends StatelessWidget {
+  const ForgotPasswordScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/rpass.png'),
             fit: BoxFit.cover,
@@ -30,8 +30,8 @@ class ForgotPasswordScreen extends StatelessWidget {
         ),
         child: Center(
           child: Container(
-            padding: EdgeInsets.all(20.0),
-            margin: EdgeInsets.symmetric(horizontal: 20.0),
+            padding: const EdgeInsets.all(20.0),
+            margin: const EdgeInsets.symmetric(horizontal: 20.0),
             width: 300,
             height: 300,
             decoration: BoxDecoration(
@@ -42,42 +42,30 @@ class ForgotPasswordScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
+                const Text(
                   'Reset Password',
                   style: TextStyle(
                     fontSize: 28.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 20.0),
+                const SizedBox(height: 20.0),
                 TextFormField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Enter email',
                     prefixIcon: Icon(Icons.email),
                   ),
                 ),
-                SizedBox(height: 20.0),
+                const SizedBox(height: 20.0),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => VerificationPasswordScreen(),
+                        builder: (context) => const VerificationPasswordScreen(),
                       ),
                     );
                   },
-                  child: MouseRegion(
-                    cursor: SystemMouseCursors.click,
-                    child: Container(
-                      width: 200,
-                      height: 50,
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Reset Password',
-                        style: TextStyle(fontSize: 18, color: Colors.white),
-                      ),
-                    ),
-                  ),
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.resolveWith<Color>(
                           (Set<MaterialState> states) {
@@ -93,6 +81,18 @@ class ForgotPasswordScreen extends StatelessWidget {
                       ),
                     ),
                   ),
+                  child: MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: Container(
+                      width: 200,
+                      height: 50,
+                      alignment: Alignment.center,
+                      child: const Text(
+                        'Reset Password',
+                        style: TextStyle(fontSize: 18, color: Colors.white),
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -105,11 +105,13 @@ class ForgotPasswordScreen extends StatelessWidget {
 
 
 class VerificationPasswordScreen extends StatelessWidget {
+  const VerificationPasswordScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/rpass.png'),
             fit: BoxFit.cover,
@@ -121,54 +123,42 @@ class VerificationPasswordScreen extends StatelessWidget {
             child: Container(
               width: 400,
               height: 300,
-              padding: EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(20.0),
               color: Colors.white.withOpacity(0.9),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text('Verification Password'),
-                  SizedBox(height: 20.0),
+                  const Text('Verification Password'),
+                  const SizedBox(height: 20.0),
                   TextFormField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Verification Code',
                       prefixIcon: Icon(Icons.code),
                     ),
                   ),
-                  SizedBox(height: 10.0),
+                  const SizedBox(height: 10.0),
                   TextFormField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Enter New Password',
                       prefixIcon: Icon(Icons.lock),
                     ),
                   ),
-                  SizedBox(height: 10.0),
-                  Align(
+                  const SizedBox(height: 10.0),
+                  const Align(
                     alignment: Alignment.centerRight,
                     child: Text('Verification'),
                   ),
-                  SizedBox(height: 20.0),
+                  const SizedBox(height: 20.0),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => LoginScreen(),
+                          builder: (context) => const LoginScreen(),
                         ),
                       );
                     },
-                    child: MouseRegion(
-                      cursor: SystemMouseCursors.click,
-                      child: Container(
-                        width: 200,
-                        height: 50,
-                        alignment: Alignment.center,
-                        child: Text(
-                          'Go to Login Screen',
-                          style: TextStyle(fontSize: 16, color: Colors.white),
-                        ),
-                      ),
-                    ),
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.resolveWith<Color>(
                             (Set<MaterialState> states) {
@@ -181,6 +171,18 @@ class VerificationPasswordScreen extends StatelessWidget {
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(25),
+                        ),
+                      ),
+                    ),
+                    child: MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: Container(
+                        width: 200,
+                        height: 50,
+                        alignment: Alignment.center,
+                        child: const Text(
+                          'Go to Login Screen',
+                          style: TextStyle(fontSize: 16, color: Colors.white),
                         ),
                       ),
                     ),
