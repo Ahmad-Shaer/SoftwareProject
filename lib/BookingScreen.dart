@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +19,7 @@ class MyApp extends StatelessWidget {
 }
 
 class BookingScreen extends StatefulWidget {
-  const BookingScreen({super.key});
+  const BookingScreen({Key? key});
 
   @override
   _BookingScreenState createState() => _BookingScreenState();
@@ -27,21 +30,40 @@ class _BookingScreenState extends State<BookingScreen> {
   bool isChecked1 = false; // Initially unchecked
   bool isChecked2 = false; // Initially unchecked
 
-  TextEditingController firstNameController = TextEditingController();
-  TextEditingController lastNameController = TextEditingController();
-  TextEditingController address1Controller = TextEditingController();
-  TextEditingController address2Controller = TextEditingController();
-  TextEditingController cityController = TextEditingController();
-  TextEditingController stateController = TextEditingController();
-  TextEditingController zipcodeController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-
   TextEditingController checkOutDateController = TextEditingController();
   TextEditingController checkInDateController = TextEditingController();
   int selectedAdults = 1; // Default value for adults
 
+  Future<void> submitBooking() async {
+    final String checkInDate = checkInDateController.text;
+    final String checkOutDate = checkOutDateController.text;
 
+    final response = await http.post(
+      Uri.parse('http://192.168.1.9:8000/bookings'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'checkInDate': checkInDate,
+        'checkOutDate': checkOutDate,
+        'roomType': [
+          if (isChecked) 'Standard',
+          if (isChecked1) 'Deluxe',
+          if (isChecked2) 'Suite',
+        ],
+        'numberOfAdults': selectedAdults,
+        'email': 'your@email.com', // Replace with actual email
+        'phoneNumber': '1234567890', // Replace with actual phone number
+      }),
+    );
+
+    if (response.statusCode == 201) {
+      // Booking successful, you can handle the response here
+      print('Booking successful!');
+    } else {
+      print('Failed to save booking. Error: ${response.body}');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,108 +81,8 @@ class _BookingScreenState extends State<BookingScreen> {
                 'assets/bord1.png', // Path to your image in the assets folder
                 fit: BoxFit.cover,
               ),
-            ),            const SizedBox(height: 20),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: firstNameController,
-                    decoration: const InputDecoration(
-                      labelText: 'First Name',
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: TextField(
-                    controller: lastNameController,
-                    decoration: const InputDecoration(
-                      labelText: 'Last Name',
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            // Add other rows for , , state, etc. following a similar structure
-            // You can use TextFields, DatePickers, Checkboxes, Dropdowns, etc. based on your requirements
-            const SizedBox(height: 20),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: address1Controller,
-                    decoration: const InputDecoration(
-                      labelText: 'Address1',
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: TextField(
-                    controller: address2Controller,
-                    decoration: const InputDecoration(
-                      labelText: 'Address2',
-                    ),
-                  ),
-                ),
-              ],
             ),
             const SizedBox(height: 20),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: cityController,
-                    decoration: const InputDecoration(
-                      labelText: 'City',
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: TextField(
-                    controller: stateController,
-                    decoration: const InputDecoration(
-                      labelText: 'State',
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: TextField(
-                    controller: zipcodeController,
-                    decoration: const InputDecoration(
-                      labelText: 'Zip Code',
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: phoneController,
-                    decoration: const InputDecoration(
-                      labelText: 'Phone',
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: TextField(
-                    controller: emailController,
-                    decoration: const InputDecoration(
-                      labelText: 'Email',
-                    ),
-                  ),
-                ),
-              ],
-            ),
-
-
-            const SizedBox(width: 10),
             Expanded(
               child: Column(
                 children: [
@@ -174,8 +96,7 @@ class _BookingScreenState extends State<BookingScreen> {
                       );
                       if (pickedDate != null) {
                         setState(() {
-                          // Update the check-in date text controller with the picked date
-                          checkInDateController.text = pickedDate.toString(); // Update your controller with the chosen date
+                          checkInDateController.text = pickedDate.toString();
                         });
                       }
                     },
@@ -187,7 +108,7 @@ class _BookingScreenState extends State<BookingScreen> {
                     decoration: const InputDecoration(
                       labelText: 'Check-in Date',
                     ),
-                    enabled: false, // Disable editing the date directly
+                    enabled: false,
                   ),
                 ],
               ),
@@ -206,8 +127,7 @@ class _BookingScreenState extends State<BookingScreen> {
                       );
                       if (pickedDate != null) {
                         setState(() {
-                          // Update the check-out date text controller with the picked date
-                          checkOutDateController.text = pickedDate.toString(); // Update your controller with the chosen date
+                          checkOutDateController.text = pickedDate.toString();
                         });
                       }
                     },
@@ -219,14 +139,11 @@ class _BookingScreenState extends State<BookingScreen> {
                     decoration: const InputDecoration(
                       labelText: 'Check-out Date',
                     ),
-                    enabled: false, // Disable editing the date directly
+                    enabled: false,
                   ),
                 ],
               ),
             ),
-
-
-
             Row(
               children: [
                 Checkbox(
@@ -258,7 +175,6 @@ class _BookingScreenState extends State<BookingScreen> {
                 const Text('Suite'),
               ],
             ),
-
             const SizedBox(width: 10),
             const SizedBox(height: 20),
             Row(
@@ -280,6 +196,22 @@ class _BookingScreenState extends State<BookingScreen> {
                   }).toList(),
                 ),
               ],
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                submitBooking();
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.blue, // Change as needed
+              ),
+              child: const Padding(
+                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 60),
+                child: Text(
+                  'Submit',
+                  style: TextStyle(fontSize: 18),
+                ),
+              ),
             ),
           ],
         ),

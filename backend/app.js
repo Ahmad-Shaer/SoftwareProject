@@ -9,11 +9,10 @@ app.use(bodyParser.json());
 const uri = 'mongodb+srv://ahmad:ahmad2010@cluster0.j6s5ksr.mongodb.net';
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-
-
-
+const bookingroute = require("./routes/booking.js");
 const userRoute = require("./routes/user.js");
 app.use("/user",userRoute);
+app.use("",bookingroute);
 const port = 8000;
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
