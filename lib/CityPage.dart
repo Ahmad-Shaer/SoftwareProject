@@ -1,7 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'CityHotelPage.dart';
-
+import 'UserProfilePage.dart';
+import 'login_screen.dart';
+import 'myBookings.dart';
 void main() {
   runApp(HotelBookingApp());
 }
@@ -10,6 +12,7 @@ class HotelBookingApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
       home: MainPage(),
     );
   }
@@ -43,12 +46,24 @@ class MainPage extends StatelessWidget {
               ),
             ),
             // DrawerHeader(
-            SizedBox(height: 40),
             ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Home'),
+            leading: Icon(Icons.person),
+            title: Text('Profile'),
+            onTap: () {
+            Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => UserProfilePage()),
+            );
+            },
+            ),
+            ListTile(
+              leading: Icon(Icons.event),
+              title: Text('My Booking'),
               onTap: () {
-                // Handle Home menu item tap
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => myBookings()),
+                );
               },
             ),
             ListTile(
@@ -58,27 +73,7 @@ class MainPage extends StatelessWidget {
                 // Handle Favorite Booking menu item tap
               },
             ),
-            ListTile(
-              leading: Icon(Icons.event),
-              title: Text('My Booking'),
-              onTap: () {
-                // Handle My Booking menu item tap
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.person),
-              title: Text('Profile'),
-              onTap: () {
-                // Handle Profile menu item tap
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.lock),
-              title: Text('Change Password'),
-              onTap: () {
-                // Handle Change Password menu item tap
-              },
-            ),
+
             ListTile(
               leading: Icon(Icons.settings
               ),
@@ -97,18 +92,14 @@ class MainPage extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: Icon(Icons.feedback),
-              title: Text('Feedback'),
-              onTap: () {
-                // Handle Feedback menu item tap
-              },
-            ),
-
-            ListTile(
               leading: Icon(Icons.logout),
               title: Text(' Log Out'),
               onTap: () {
-                // Handle About App menu item tap
+                // Navigate to the login screen when Log Out is pressed
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyApp()),
+                );
               },
             ),
 
@@ -213,6 +204,20 @@ class MainPage extends StatelessWidget {
           ),
         ],
         type: BottomNavigationBarType.fixed,
+    onTap: (index) {
+      if (index == 0) {
+        // Navigate to the main screen (main.dart)
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HotelBookingApp()),
+        );
+      } else if (index == 1) {
+        // Navigate to the My Booking screen (myBookings.dart)
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => myBookings()));
+      }
+    }
       ),
     );
   }

@@ -148,6 +148,7 @@ class signup_screen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       body: Container(
         padding: const EdgeInsets.only(top: 100), // Adjust the top padding as needed
         decoration: const BoxDecoration(

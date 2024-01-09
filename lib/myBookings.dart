@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:table_calendar/table_calendar.dart';
 import 'CityPage.dart';
-class UserProfilePage extends StatelessWidget {
-  const UserProfilePage({Key? key}) : super(key: key);
+
+class myBookings extends StatelessWidget {
+  const myBookings({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false, // Set this to false to hide the debug banner
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: null,
         body: Padding(
@@ -14,35 +16,38 @@ class UserProfilePage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const CircleAvatar(
-                radius: 50,
-                backgroundImage: AssetImage('assets/logo1.png'),
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                'User Name',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
               const SizedBox(height: 10),
-              const Text(
-                'useremail@example.com',
-                style: TextStyle(fontSize: 16, color: Colors.grey),
-              ),
               const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  // Handle edit profile action
-                },
-                child: const Text('Edit Profile'),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: TableCalendar(
+                    firstDay: DateTime.utc(2024, 1, 1),
+                    lastDay: DateTime.utc(2024, 12, 31),
+                    focusedDay: DateTime.now(),
+                    calendarFormat: CalendarFormat.month,
+                    headerStyle: HeaderStyle(
+                      formatButtonVisible: true,
+                    ),
+                    calendarStyle: CalendarStyle(
+                      todayTextStyle: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue,
+                      ),
+                      selectedDecoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.blue,
+                      ),
+                    ),
+                    selectedDayPredicate: (day) {
+                      return isSameDay(day, DateTime.now());
+                    },
+                    onDaySelected: (selectedDay, focusedDay) {
+                      // Handle day selection
+                    },
+                  ),
+                ),
               ),
-              const SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: () {
-                  // Handle change password action
-                },
-                child: const Text('Change Password'),
-              ),
-              // Add more buttons for other actions if needed
             ],
           ),
         ),

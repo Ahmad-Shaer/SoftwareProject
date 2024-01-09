@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Travel Nest',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
 
@@ -139,7 +139,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                   const SizedBox(height: 20,width: 50),
                   DropdownButton<String>(
                     value: _selectedLanguage,
-                    items: <String>['English', 'Arabic', 'Spanish', 'French']
+                    items: <String>['English', 'Arabic']
                         .map((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
