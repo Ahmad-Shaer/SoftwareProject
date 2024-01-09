@@ -2,11 +2,12 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
+const cors = require('cors');
 
 const app = express();
 app.use(bodyParser.json());
-
-const uri = 'mongodb+srv://ahmad:ahmad2010@cluster0.j6s5ksr.mongodb.net';
+app.use(cors());
+const uri = 'mongodb://localhost:27017/';
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const bookingroute = require("./routes/booking.js");

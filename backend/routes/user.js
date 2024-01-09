@@ -19,7 +19,7 @@ const User = model('User', userSchema);
 router.post('/signup', async (req, res) => {
   try {
     const { username, email, password, country, city, phoneNumber } = req.body;
-
+    console.log("hi");
     // Hash the password before saving it
     const hashedPassword = await bcrypt.hash(password, 10);
 

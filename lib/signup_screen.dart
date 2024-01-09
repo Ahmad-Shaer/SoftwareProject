@@ -100,7 +100,8 @@ class signup_screen extends StatelessWidget {
     }
 
     final response = await http.post(
-      Uri.parse('http://192.168.1.9:8000/user/signup'),
+
+      Uri.parse("http://192.168.1.15:8000/user/signup"),
 
       headers: <String, String>{
         'Content-Type': 'application/json',
@@ -189,8 +190,9 @@ class signup_screen extends StatelessWidget {
                   _buildInputField(Icons.phone, 'Phone Number', controller: phoneNumberController),
                   const SizedBox(height: 8),
                   ElevatedButton(
-                    onPressed: () {
-                      signUp(context);
+                    onPressed: () async {
+
+                      await signUp(context);
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.resolveWith<Color>(

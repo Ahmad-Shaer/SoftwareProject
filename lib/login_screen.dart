@@ -39,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final String password = passwordController.text;
 
     final response = await http.post(
-      Uri.parse('http://192.168.1.9:8000/user/login'),
+      Uri.parse('http://192.168.1.15:8000/user/login'),
       headers: <String, String>{
         'Content-Type': 'application/json',
       },
@@ -54,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const HotelBookingApp(),
+          builder: (context) =>  HotelBookingApp(),
         ),
       );
     } else {

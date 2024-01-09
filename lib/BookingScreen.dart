@@ -39,7 +39,7 @@ class _BookingScreenState extends State<BookingScreen> {
     final String checkOutDate = checkOutDateController.text;
 
     final response = await http.post(
-      Uri.parse('http://192.168.1.9:8000/bookings'),
+      Uri.parse('http://192.168.1.15:8000/bookings'),
       headers: <String, String>{
         'Content-Type': 'application/json',
       },
