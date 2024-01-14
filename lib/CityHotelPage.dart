@@ -11,7 +11,7 @@ class CityHotelPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false,
       home: MainPage(),
     );
   }
@@ -21,100 +21,6 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Hello User!'),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            ListTile(
-              title: Row(
-                children: [
-                  CircleAvatar(
-                    backgroundImage: AssetImage('assets/city_0.png'),
-                  ),
-                  SizedBox(width:30),
-                  Text(
-                    'Hello User',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                ],
-              ),
-            ),
-            // DrawerHeader(
-            SizedBox(height: 40),
-            ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Home'),
-              onTap: () {
-                // Handle Home menu item tap
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.favorite),
-              title: Text('Favorite Booking'),
-              onTap: () {
-                // Handle Favorite Booking menu item tap
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.event),
-              title: Text('My Booking'),
-              onTap: () {
-                // Handle My Booking menu item tap
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.person),
-              title: Text('Profile'),
-              onTap: () {
-                // Handle Profile menu item tap
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.lock),
-              title: Text('Change Password'),
-              onTap: () {
-                // Handle Change Password menu item tap
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.settings
-              ),
-              title: Text('Setting'),
-              onTap: () {
-                // Handle Change Password menu item tap
-              },
-            ),
-
-
-            ListTile(
-              leading: Icon(Icons.info),
-              title: Text('About App'),
-              onTap: () {
-                // Handle About App menu item tap
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.feedback),
-              title: Text('Feedback'),
-              onTap: () {
-                // Handle Feedback menu item tap
-              },
-            ),
-
-            ListTile(
-              leading: Icon(Icons.logout),
-              title: Text(' Log Out'),
-              onTap: () {
-                // Handle About App menu item tap
-              },
-            ),
-
-          ],
-        ),
-      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,8 +31,7 @@ class MainPage extends StatelessWidget {
                 onTap: () {
                   Scaffold.of(context).openDrawer(); // Opens the drawer
                 },
-                child: Row(
-                ),
+                child: Row(),
               ),
             ),
             //SizedBox(height: 20),
@@ -185,42 +90,15 @@ class MainPage extends StatelessWidget {
               ),
             ),
             buildImageSlider(context, 'nab', 2),
-
-
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.book),
-            label: 'My Booking',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            label: 'Notification',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            label: 'Chat',
-          ),
-        ],
-        type: BottomNavigationBarType.fixed,
       ),
     );
   }
 }
+
 ////gold hotel
 class Golden_Tree extends StatelessWidget {
-
   Widget _buildFacilityIcons() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -249,7 +127,6 @@ class Golden_Tree extends StatelessWidget {
     );
   }
 
-
   Widget _buildSectionButtonsRow() {
     return SizedBox(
       height: 40,
@@ -265,6 +142,7 @@ class Golden_Tree extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildActionButtons(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -297,6 +175,7 @@ class Golden_Tree extends StatelessWidget {
       ),
     );
   }
+
   Widget build(BuildContext context) {
     return Scaffold(
       // appBar: AppBar(
@@ -317,7 +196,6 @@ class Golden_Tree extends StatelessWidget {
                 'Golden_Tree Hotel',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-
             ),
             SizedBox(height: 15),
             Padding(
@@ -326,7 +204,6 @@ class Golden_Tree extends StatelessWidget {
                 'Description: ',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-
             ),
             SizedBox(height: 10),
             Padding(
@@ -385,9 +262,9 @@ class Golden_Tree extends StatelessWidget {
     );
   }
 }
+
 ////Khan_Alwakala
 class Khan_Alwakala extends StatelessWidget {
-
   Widget _buildFacilityIcons() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -416,7 +293,6 @@ class Khan_Alwakala extends StatelessWidget {
     );
   }
 
-
   Widget _buildSectionButtonsRow() {
     return SizedBox(
       height: 40,
@@ -432,6 +308,7 @@ class Khan_Alwakala extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildActionButtons(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -464,6 +341,7 @@ class Khan_Alwakala extends StatelessWidget {
       ),
     );
   }
+
   Widget build(BuildContext context) {
     return Scaffold(
       // appBar: AppBar(
@@ -484,7 +362,6 @@ class Khan_Alwakala extends StatelessWidget {
                 'Khan_Alwakala Hotel',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-
             ),
             SizedBox(height: 15),
             Padding(
@@ -493,7 +370,6 @@ class Khan_Alwakala extends StatelessWidget {
                 'Description: ',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-
             ),
             SizedBox(height: 10),
             Padding(
@@ -555,7 +431,6 @@ class Khan_Alwakala extends StatelessWidget {
 
 /////Taybeh Golden
 class Taybeh_Golden extends StatelessWidget {
-
   Widget _buildFacilityIcons() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -584,7 +459,6 @@ class Taybeh_Golden extends StatelessWidget {
     );
   }
 
-
   Widget _buildSectionButtonsRow() {
     return SizedBox(
       height: 40,
@@ -600,6 +474,7 @@ class Taybeh_Golden extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildActionButtons(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -632,6 +507,7 @@ class Taybeh_Golden extends StatelessWidget {
       ),
     );
   }
+
   Widget build(BuildContext context) {
     return Scaffold(
       // appBar: AppBar(
@@ -652,7 +528,6 @@ class Taybeh_Golden extends StatelessWidget {
                 'Taybeh Golden Hotel',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-
             ),
             SizedBox(height: 15),
             Padding(
@@ -661,7 +536,6 @@ class Taybeh_Golden extends StatelessWidget {
                 'Description: ',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-
             ),
             SizedBox(height: 10),
             Padding(
@@ -720,10 +594,10 @@ class Taybeh_Golden extends StatelessWidget {
     );
   }
 }
+
 //////////
 ////Al Yasmeen Hotel
 class Al_Yasmeen_Hotel extends StatelessWidget {
-
   Widget _buildFacilityIcons() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -752,7 +626,6 @@ class Al_Yasmeen_Hotel extends StatelessWidget {
     );
   }
 
-
   Widget _buildSectionButtonsRow() {
     return SizedBox(
       height: 40,
@@ -768,6 +641,7 @@ class Al_Yasmeen_Hotel extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildActionButtons(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -800,6 +674,7 @@ class Al_Yasmeen_Hotel extends StatelessWidget {
       ),
     );
   }
+
   Widget build(BuildContext context) {
     return Scaffold(
       // appBar: AppBar(
@@ -820,7 +695,6 @@ class Al_Yasmeen_Hotel extends StatelessWidget {
                 'Al Yasmeen Hotel ',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-
             ),
             SizedBox(height: 15),
             Padding(
@@ -829,7 +703,6 @@ class Al_Yasmeen_Hotel extends StatelessWidget {
                 'Description: ',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-
             ),
             SizedBox(height: 10),
             Padding(
@@ -891,7 +764,6 @@ class Al_Yasmeen_Hotel extends StatelessWidget {
 
 /////Yildiz Hotel
 class Yildiz_Hotel extends StatelessWidget {
-
   Widget _buildFacilityIcons() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -920,7 +792,6 @@ class Yildiz_Hotel extends StatelessWidget {
     );
   }
 
-
   Widget _buildSectionButtonsRow() {
     return SizedBox(
       height: 40,
@@ -936,6 +807,7 @@ class Yildiz_Hotel extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildActionButtons(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -968,6 +840,7 @@ class Yildiz_Hotel extends StatelessWidget {
       ),
     );
   }
+
   Widget build(BuildContext context) {
     return Scaffold(
       // appBar: AppBar(
@@ -988,7 +861,6 @@ class Yildiz_Hotel extends StatelessWidget {
                 'Yildiz Hotel ',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-
             ),
             SizedBox(height: 15),
             Padding(
@@ -997,7 +869,6 @@ class Yildiz_Hotel extends StatelessWidget {
                 'Description: ',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-
             ),
             SizedBox(height: 10),
             Padding(
@@ -1090,38 +961,47 @@ Widget buildImageSlider(BuildContext context, String category, int count) {
         count,
             (index) => InkWell(
           onTap: () {
-            if  (index == 0 && category == 'nab') { // Check if it's the Nablus slide
+            if (index == 0 && category == 'nab') {
+              // Check if it's the Nablus slide
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Golden_Tree()), // Navigate to SpecificHotelPage
+                MaterialPageRoute(
+                    builder: (context) =>
+                        Golden_Tree()), // Navigate to SpecificHotelPage
               );
-            }
-
-            else  if  (index == 1 && category == 'nab') { // Check if it's the Nablus slide
+            } else if (index == 1 && category == 'nab') {
+              // Check if it's the Nablus slide
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Khan_Alwakala()), // Navigate to SpecificHotelPage
+                MaterialPageRoute(
+                    builder: (context) =>
+                        Khan_Alwakala()), // Navigate to SpecificHotelPage
               );
-            }
-            else  if  (index == 2 && category == 'nab') { // Check if it's the Nablus slide
+            } else if (index == 2 && category == 'nab') {
+              // Check if it's the Nablus slide
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Taybeh_Golden()), // Navigate to SpecificHotelPage
+                MaterialPageRoute(
+                    builder: (context) =>
+                        Taybeh_Golden()), // Navigate to SpecificHotelPage
               );
-            }
-            else  if  (index == 3 && category == 'nab') { // Check if it's the Nablus slide
+            } else if (index == 3 && category == 'nab') {
+              // Check if it's the Nablus slide
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Al_Yasmeen_Hotel()), // Navigate to SpecificHotelPage
+                MaterialPageRoute(
+                    builder: (context) =>
+                        Al_Yasmeen_Hotel()), // Navigate to SpecificHotelPage
               );
-            }
-            else  if  (index == 4 && category == 'nab') { // Check if it's the Nablus slide
+            } else if (index == 4 && category == 'nab') {
+              // Check if it's the Nablus slide
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Golden_Tree()), // Navigate to SpecificHotelPage
+                MaterialPageRoute(
+                    builder: (context) =>
+                        Golden_Tree()), // Navigate to SpecificHotelPage
               );
             }
-
           },
           child: Stack(
             children: [
@@ -1130,7 +1010,8 @@ Widget buildImageSlider(BuildContext context, String category, int count) {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.0),
                   image: DecorationImage(
-                    image: AssetImage('assets/hotels/nablus/${category}_$index.png'),
+                    image: AssetImage(
+                        'assets/hotels/nablus/${category}_$index.png'),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -1279,7 +1160,8 @@ class _BookingState extends State<Booking> {
                     children: [
                       _buildDropDownButton(
                         label: 'Person',
-                        items: List.generate(10, (index) => (index + 1).toString()),
+                        items: List.generate(
+                            10, (index) => (index + 1).toString()),
                         onChanged: (value) {
                           setState(() {
                             selectedPerson = int.parse(value);
@@ -1312,5 +1194,3 @@ class _BookingState extends State<Booking> {
     );
   }
 }
-
-

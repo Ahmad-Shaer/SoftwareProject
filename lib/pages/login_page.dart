@@ -1,7 +1,10 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'signup_screen.dart';
-import 'ForgotPasswordScreen.dart';
-import 'CityPage.dart';
+import 'package:traveler_nest/widgets/button.dart';
+import '../main.dart';
+import 'sign_up_page.dart';
+import '../ForgotPasswordScreen.dart';
+import '../CityPage.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -15,20 +18,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-        debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
+      debugShowCheckedModeBanner: false,
+      home: LoginPage(),
     );
   }
 }
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginPageState extends State<LoginPage> {
   bool _isPasswordVisible = false;
   Color forgetPasswordColor = Colors.blue;
   Color dontHaveAccountColor = Colors.blue;
@@ -86,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/signup.gif'),
+            image: AssetImage('assets/travel.jpg'),
             fit: BoxFit.cover,
           ),
         ),
@@ -97,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
             width: 500,
             height: 500,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.9),
+              color: Colors.white.withOpacity(0.7),
               borderRadius: BorderRadius.circular(10.0),
             ),
             child: Column(
@@ -165,11 +168,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     );
                   },
-                  onHover: (value) {
-                    setState(() {
-                      forgetPasswordColor = value ? Colors.blueGrey : Colors.blue;
-                    });
-                  },
                   child: MouseRegion(
                     cursor: SystemMouseCursors.click,
                     child: Align(
@@ -177,7 +175,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Text(
                         'Forgot Password?',
                         style: TextStyle(
-                          color: forgetPasswordColor,
+                          color: Theme.of(context).extension<AppColors>()?.primaryColor,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -186,64 +184,28 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
 
                 const SizedBox(height: 20.0),
-                ElevatedButton(
-                  onPressed: () {
+                CustomButton(
+                  onClick: () {
                     loginUser(context);
                   },
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                          (Set<MaterialState> states) {
-                        if (states.contains(MaterialState.hovered)) {
-                          return Colors.blueGrey.withOpacity(0.8);
-                        }
-                        return Colors.lightBlueAccent;
-                      },
-                    ),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0),
-                      ),
+                  text: 'login',
+                  textSize: 18.0,
+                  padding: const EdgeInsets.symmetric(horizontal: 64.0, vertical: 6.0),
+
+                ),
+                const SizedBox(height: 60.0),
+                Center(
+                  child: RichText(
+                    text: TextSpan(
+                      children: <TextSpan>[
+                        TextSpan(text: 'Need an Account?', style: TextStyle(color: Theme.of(context).extension<AppColors>()?.primaryColor.withOpacity(0.65))),
+                        TextSpan(text: ' Sign up', style: TextStyle(color:  Theme.of(context).extension<AppColors>()?.primaryColor),
+                          recognizer: TapGestureRecognizer()..onTap = () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignupPage()),),
+                        ),
+                      ],
                     ),
                   ),
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 12, horizontal: 60),
-                    child: Text(
-                      'Login',
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10.0),
-                const Divider(
-                  thickness: 1.0,
-                  color: Colors.black,
-                ),
-                const SizedBox(height: 10.0),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => signup_screen(),
-                      ),
-                    );
-                  },
-                  onHover: (value) {
-                    setState(() {
-                      dontHaveAccountColor = value ? Colors.blueGrey : Colors.blue;
-                    });
-                  },
-                  child: MouseRegion(
-                    cursor: SystemMouseCursors.click,
-                    child: Text(
-                      "Don't have an account? Join us!",
-                      style: TextStyle(
-                        color: dontHaveAccountColor,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
+                )
               ],
             ),
           ),

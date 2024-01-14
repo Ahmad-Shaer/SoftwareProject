@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'login_screen.dart';
+import 'package:traveler_nest/pages/login_page.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-        debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false,
       home: ForgotPasswordScreen(),
     );
   }
@@ -25,7 +25,7 @@ class ForgotPasswordScreen extends StatelessWidget {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/rpass.png'),
+            image: AssetImage('assets/travel-2.jpg'),
             fit: BoxFit.cover,
           ),
         ),
@@ -36,7 +36,7 @@ class ForgotPasswordScreen extends StatelessWidget {
             width: 300,
             height: 300,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.9),
+              color: Colors.white.withOpacity(0.75),
               borderRadius: BorderRadius.circular(10.0),
             ),
             child: Column(
@@ -156,7 +156,7 @@ class VerificationPasswordScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const LoginScreen(),
+                          builder: (context) => const LoginPage(),
                         ),
                       );
                     },

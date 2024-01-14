@@ -1,23 +1,64 @@
 import 'package:flutter/material.dart';
+import 'package:traveler_nest/pages/login_page.dart';
+import 'package:traveler_nest/pages/pages_wrapper.dart';
+import 'package:traveler_nest/pages/profile_page.dart';
+import 'package:traveler_nest/pages/sign_up_page.dart';
 import 'OnboardingVideoScreen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const TravelNestApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key, Key? Key});
+class TravelNestApp extends StatelessWidget {
+  const TravelNestApp({super.key, Key? Key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Travel Nest',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
 
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData.light().copyWith(
+        primaryColor: AppColors().primaryColor,
+        secondaryHeaderColor: AppColors().secondaryColor,
+        focusColor: AppColors().accentColor,
+        indicatorColor: AppColors().primaryColor,
+        iconTheme: IconThemeData(color: AppColors().primaryColor),
+        extensions: <ThemeExtension<dynamic>>[AppColors()],
+        inputDecorationTheme: InputDecorationTheme(
+          floatingLabelStyle: TextStyle(
+              color: AppColors().primaryColor,
+              fontSize: 18.0,
+              fontWeight: FontWeight.bold),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: const BorderRadius.all(Radius.circular(6.0)),
+            borderSide: BorderSide(
+              color: AppColors().primaryColor,
+              width: 2.0, // Change this color to your desired focus color
+            ),
+          ),
+        ),
       ),
-      home: const SplashScreen(),
+      home: PagesWrapper(), //const SplashScreen(),
     );
+  }
+}
+
+class AppColors extends ThemeExtension<AppColors> {
+  final primaryColor = const Color(0xFF65403a);
+  final secondaryColor = const Color(0xFF18465a);
+  final accentColor = const Color(0xFF242524);
+  final lightColor = const Color(0xFFeff1ee);
+  final darkColor = const Color(0xFF1b1c27);
+
+  @override
+  ThemeExtension<AppColors> copyWith() {
+    return this;
+  }
+
+  @override
+  ThemeExtension<AppColors> lerp(AppColors? other, double t) {
+    return this;
   }
 }
 
@@ -27,6 +68,7 @@ class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
+
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
@@ -75,7 +117,8 @@ class SecondImageScreen extends StatelessWidget {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const LanguageSelectionScreen()),
+            MaterialPageRoute(
+                builder: (context) => const LanguageSelectionScreen()),
           );
         },
         child: SizedBox(
@@ -95,7 +138,8 @@ class LanguageSelectionScreen extends StatefulWidget {
   const LanguageSelectionScreen({super.key});
 
   @override
-  _LanguageSelectionScreenState createState() => _LanguageSelectionScreenState();
+  _LanguageSelectionScreenState createState() =>
+      _LanguageSelectionScreenState();
 }
 
 class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
@@ -136,11 +180,10 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 20,width: 50),
+                  const SizedBox(height: 20, width: 50),
                   DropdownButton<String>(
                     value: _selectedLanguage,
-                    items: <String>['English', 'Arabic']
-                        .map((String value) {
+                    items: <String>['English', 'Arabic'].map((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(
@@ -161,7 +204,8 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                       print('Selected Language: $_selectedLanguage');
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const BoardingScreen()),
+                        MaterialPageRoute(
+                            builder: (context) => const BoardingScreen()),
                       );
                     },
                     child: Container(
@@ -256,11 +300,14 @@ class _BoardingScreenState extends State<BoardingScreen> {
             child: ElevatedButton(
               onPressed: () {
                 if (_currentPage < 2) {
-                  _pageController.nextPage(duration: const Duration(milliseconds: 500), curve: Curves.ease);
+                  _pageController.nextPage(
+                      duration: const Duration(milliseconds: 500),
+                      curve: Curves.ease);
                 } else {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const OnboardingVideoScreen()),
+                    MaterialPageRoute(
+                        builder: (context) => const OnboardingVideoScreen()),
                   );
                 }
               },
@@ -323,7 +370,8 @@ class RibbonPainter extends CustomPainter {
 
     double lineHeight = size.width / 3;
 
-    canvas.drawLine(Offset(position * lineHeight, 0), Offset(position * lineHeight + lineHeight, 0), paint);
+    canvas.drawLine(Offset(position * lineHeight, 0),
+        Offset(position * lineHeight + lineHeight, 0), paint);
   }
 
   @override

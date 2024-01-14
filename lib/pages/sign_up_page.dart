@@ -1,10 +1,12 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'login_screen.dart';
+import 'package:traveler_nest/main.dart';
+import 'login_page.dart';
 
-class signup_screen extends StatelessWidget {
+class SignupPage extends StatelessWidget {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -13,7 +15,7 @@ class signup_screen extends StatelessWidget {
   final TextEditingController cityController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
 
-  signup_screen({super.key});
+  SignupPage({super.key});
 
   Future<void> signUp(BuildContext context) async {
     final String username = usernameController.text;
@@ -130,7 +132,7 @@ class signup_screen extends StatelessWidget {
                   Navigator.of(context).pop(); // Close the dialog
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const LoginScreen()),
+                    MaterialPageRoute(builder: (context) => const LoginPage()),
                   ); // Navigate to login screen
                 },
                 child: const Text('OK'),
@@ -153,7 +155,7 @@ class signup_screen extends StatelessWidget {
         padding: const EdgeInsets.only(top: 100), // Adjust the top padding as needed
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/signup.gif'),
+            image: AssetImage('assets/travel.jpg'),
             fit: BoxFit.cover,
           ),
         ),
@@ -172,16 +174,17 @@ class signup_screen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const Text(
-                    'JOIN US',
+                  Text(
+                    'START NOW!',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 28,
+                      fontSize: 32,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      letterSpacing: 4.0,
+                      color: Theme.of(context).extension<AppColors>()?.primaryColor,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 12),
                   _buildInputField(Icons.person, 'User Name', controller: usernameController),
                   _buildInputField(Icons.email, 'Email', controller: emailController),
                   _buildInputField(Icons.lock, 'Password', isPassword: true, controller: passwordController),
@@ -195,21 +198,27 @@ class signup_screen extends StatelessWidget {
 
                       await signUp(context);
                     },
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                            (Set<MaterialState> states) {
-                          if (states.contains(MaterialState.hovered)) {
-                            return Colors.grey;
-                          }
-                          return Colors.blue;
-                        },
-                      ),
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor:  Theme.of(context).extension<AppColors>()?.primaryColor
                     ),
                     child: const Text(
                       'Sign Up',
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
+                  const SizedBox(height: 32),
+                  Center(
+                    child: RichText(
+                      text: TextSpan(
+                        children: <TextSpan>[
+                          TextSpan(text: 'Already Have an Account?', style: TextStyle(color: Theme.of(context).extension<AppColors>()?.primaryColor.withOpacity(0.65))),
+                          TextSpan(text: ' Login', style: TextStyle(color:  Theme.of(context).extension<AppColors>()?.primaryColor),
+                            recognizer: TapGestureRecognizer()..onTap = () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginPage()),),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),
@@ -225,12 +234,14 @@ class signup_screen extends StatelessWidget {
       child: TextField(
         controller: controller,
         obscureText: isPassword,
+
         decoration: InputDecoration(
           prefixIcon: Icon(icon),
           labelText: labelText,
           filled: true,
           fillColor: Colors.white.withOpacity(0.7),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(6)),
+
         ),
       ),
     );

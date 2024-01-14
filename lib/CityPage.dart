@@ -1,9 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:traveler_nest/pages/profile_page.dart';
+
 import 'CityHotelPage.dart';
-import 'UserProfilePage.dart';
-import 'login_screen.dart';
-import 'myBookings.dart';
+
 void main() {
   runApp(HotelBookingApp());
 }
@@ -12,7 +12,7 @@ class HotelBookingApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false,
       home: MainPage(),
     );
   }
@@ -27,88 +27,9 @@ class MainPage extends StatelessWidget {
       ),
       //  backgroundColor: Colors.blue.shade50, // Set the background color here
 
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            ListTile(
-              title: Row(
-                children: [
-                  CircleAvatar(
-                    backgroundImage: AssetImage('assets/city_0.png'),
-                  ),
-                  SizedBox(width:30),
-                  Text(
-                    'Hello User',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                ],
-              ),
-            ),
-            // DrawerHeader(
-            ListTile(
-            leading: Icon(Icons.person),
-            title: Text('Profile'),
-            onTap: () {
-            Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => UserProfilePage()),
-            );
-            },
-            ),
-            ListTile(
-              leading: Icon(Icons.event),
-              title: Text('My Booking'),
-              onTap: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => myBookings()),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.favorite),
-              title: Text('Favorite Booking'),
-              onTap: () {
-                // Handle Favorite Booking menu item tap
-              },
-            ),
-
-            ListTile(
-              leading: Icon(Icons.settings
-              ),
-              title: Text('Setting'),
-              onTap: () {
-                // Handle Change Password menu item tap
-              },
-            ),
-
-
-            ListTile(
-              leading: Icon(Icons.info),
-              title: Text('About App'),
-              onTap: () {
-                // Handle About App menu item tap
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.logout),
-              title: Text(' Log Out'),
-              onTap: () {
-                // Navigate to the login screen when Log Out is pressed
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => MyApp()),
-                );
-              },
-            ),
-
-          ],
-        ),
-      ),
       body: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Padding(
               padding: const EdgeInsets.all(16.0),
@@ -116,8 +37,7 @@ class MainPage extends StatelessWidget {
                 onTap: () {
                   Scaffold.of(context).openDrawer(); // Opens the drawer
                 },
-                child: Row(
-                ),
+                child: Row(),
               ),
             ),
             //SizedBox(height: 20),
@@ -175,53 +95,13 @@ class MainPage extends StatelessWidget {
             //   ),
             // ),
             // buildImageSlider(context, 'booked', 2),
-
-
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.book),
-            label: 'My Booking',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            label: 'Notification',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            label: 'Chat',
-          ),
-        ],
-        type: BottomNavigationBarType.fixed,
-    onTap: (index) {
-      if (index == 0) {
-        // Navigate to the main screen (main.dart)
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HotelBookingApp()),
-        );
-      } else if (index == 1) {
-        // Navigate to the My Booking screen (myBookings.dart)
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => myBookings()));
-      }
-    }
       ),
     );
   }
 }
+
 ////////slides
 Widget buildImageSlider(BuildContext context, String category, int count) {
   Map<String, String> slideTexts = {
@@ -272,7 +152,7 @@ Widget buildImageSlider(BuildContext context, String category, int count) {
                 }
               },
               child: Container(
-                margin: EdgeInsets.all(5.0),
+                margin: const EdgeInsets.all(5.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.0),
                   image: DecorationImage(
@@ -314,5 +194,3 @@ Widget buildImageSlider(BuildContext context, String category, int count) {
     ),
   );
 }
-
-

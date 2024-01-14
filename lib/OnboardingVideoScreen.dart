@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'login_screen.dart';
-import 'signup_screen.dart';
+import 'package:traveler_nest/pages/login_page.dart';
+import 'package:traveler_nest/pages/sign_up_page.dart';
 
 class OnboardingVideoScreen extends StatefulWidget {
   const OnboardingVideoScreen({super.key});
@@ -67,9 +67,9 @@ class _OnboardingVideoScreenState extends State<OnboardingVideoScreen> {
               thickness: 0.9,
             ),
             const SizedBox(height: 20.0),
-            _buildAnimatedButton(context, 'Login', const LoginScreen(), buttonColorLogin),
+            _buildAnimatedButton(context, 'Login', const LoginPage(), buttonColorLogin),
             const SizedBox(height: 10),
-            _buildAnimatedButton(context, 'Sign Up', signup_screen(), buttonColorSignUp),
+            _buildAnimatedButton(context, 'Sign Up', SignupPage(), buttonColorSignUp),
           ],
         ),
       ),
