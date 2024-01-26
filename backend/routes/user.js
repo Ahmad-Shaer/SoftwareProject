@@ -13,13 +13,16 @@ const userSchema = new Schema({
   country: String,
   city: String,
   phoneNumber: String,
+  isAdmin : Boolean,
+  favourites : Array,
+  bookingsID: Array,
 });
 const User = model('User', userSchema);
 
 router.post('/signup', async (req, res) => {
   try {
     const { username, email, password, country, city, phoneNumber } = req.body;
-    console.log("hi");
+    const isAdmin = false ;
     // Hash the password before saving it
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -30,6 +33,7 @@ router.post('/signup', async (req, res) => {
       country,
       city,
       phoneNumber,
+      isAdmin,
     });
 
     const savedUser = await newUser.save();

@@ -7,7 +7,7 @@ const cors = require('cors');
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
-const uri = 'mongodb://localhost:27017/';
+const uri = 'mongodb://localhost:27017/Project';
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const bookingroute = require("./routes/booking.js");

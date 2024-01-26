@@ -39,7 +39,7 @@ class TravelNestApp extends StatelessWidget {
           ),
         ),
       ),
-      home: PagesWrapper(), //const SplashScreen(),
+      home: MyApp(), //const SplashScreen(),
     );
   }
 }

@@ -8,12 +8,16 @@ const bookingSchema = new Schema({
   checkInDate: String,
   checkOutDate: String,
   roomType: [String],
+  hotelID: String,
+  totalPrice: Number,
+  discount: Number,
   numberOfAdults: Number,
   email: String,
   phoneNumber: String,
 });
 
 const Booking = model('Booking', bookingSchema);
+const User = model('User');
 
 router.post('/bookings', async (req, res) => {
   try {
@@ -36,6 +40,13 @@ router.post('/bookings', async (req, res) => {
     });
 
     const savedBooking = await newBooking.save();
+
+
+    await User.findOneAndUpdate(
+      { email: email },
+      { $push: { bookingsID: savedBooking._id } },
+      { new: true }
+    );
 
     console.log('Booking saved:', savedBooking);
     res.status(201).json({ message: 'Booking saved successfully', booking: savedBooking });
