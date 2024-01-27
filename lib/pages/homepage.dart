@@ -3,18 +3,22 @@ import 'dart:ui';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:traveler_nest/model/hotel.dart';
+import 'package:traveler_nest/pages/notifications_page.dart';
 
 import '../main.dart';
 import '../widgets/custom_cards.dart';
+import '../widgets/search_modal_sheet.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  final void Function() goToProfilePage;
+  const HomePage(this.goToProfilePage, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).extension<AppColors>()?.lightColor,
       appBar: AppBar(
+        surfaceTintColor: Colors.white,
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.transparent,
         flexibleSpace: ClipRRect(
@@ -56,7 +60,24 @@ class HomePage extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                elevation: 4,
+                enableDrag: true,
+                isDismissible: true,
+                useSafeArea: true,
+                backgroundColor: Colors.white,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(40),
+                    topLeft: Radius.circular(40),
+                  ),
+                ),
+                builder: (BuildContext context) => const NotificationsPage(),
+              );
+            },
             padding: EdgeInsets.zero,
             icon: const Icon(
               Icons.notifications_none_rounded,
@@ -65,7 +86,9 @@ class HomePage extends StatelessWidget {
           ),
           IconButton(
             padding: EdgeInsets.zero,
-            onPressed: () {},
+            onPressed: () {
+              goToProfilePage();
+            },
             icon: const Icon(
               Icons.account_circle_outlined,
               color: Colors.white,
@@ -96,61 +119,81 @@ class HomePage extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(24.0),
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20.0,
-                        vertical: 8.0,
+                GestureDetector(
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      elevation: 4,
+                      enableDrag: true,
+                      isDismissible: true,
+                      useSafeArea: true,
+                      backgroundColor: Colors.white,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(40),
+                          topLeft: Radius.circular(40),
+                        ),
                       ),
-                      color: Colors.grey.withOpacity(0.2),
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.search_rounded,
-                            color: Colors.white,
-                            size: 22.0,
-                          ),
-                          const SizedBox(
-                            width: 15,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                "Search places",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18.0,
+                      builder: (BuildContext context) => SearchModalSheet(),
+                    );
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(24.0),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20.0,
+                          vertical: 8.0,
+                        ),
+                        color: Colors.grey.withOpacity(0.2),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.search_rounded,
+                              color: Colors.white,
+                              size: 22.0,
+                            ),
+                            const SizedBox(
+                              width: 15,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "Search places",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18.0,
+                                  ),
                                 ),
-                              ),
-                              RichText(
-                                text: const TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: "Date range",
-                                      style: TextStyle(color: Colors.grey),
-                                    ),
-                                    TextSpan(
-                                      text: " · ",
-                                      style: TextStyle(
-                                        color: Colors.white70,
-                                        letterSpacing: 1.0,
-                                        fontWeight: FontWeight.w900,
+                                RichText(
+                                  text: const TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: "Date range",
+                                        style: TextStyle(color: Colors.grey),
                                       ),
-                                    ),
-                                    TextSpan(
-                                      text: "Number of guests",
-                                      style: TextStyle(color: Colors.grey),
-                                    ),
-                                  ],
+                                      TextSpan(
+                                        text: " · ",
+                                        style: TextStyle(
+                                          color: Colors.white70,
+                                          letterSpacing: 1.0,
+                                          fontWeight: FontWeight.w900,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: "Number of guests",
+                                        style: TextStyle(color: Colors.grey),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
-                          )
-                        ],
+                              ],
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),

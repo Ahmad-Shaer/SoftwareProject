@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:traveler_nest/pages/calender_page.dart';
 import 'package:traveler_nest/pages/login_page.dart';
 import 'package:traveler_nest/pages/pages_wrapper.dart';
 import 'package:traveler_nest/pages/profile_page.dart';
@@ -39,7 +40,7 @@ class TravelNestApp extends StatelessWidget {
           ),
         ),
       ),
-      home: MyApp(), //const SplashScreen(),
+      home: PagesWrapper(), //const SplashScreen(),
     );
   }
 }

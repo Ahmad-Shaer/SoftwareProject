@@ -2,13 +2,15 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:traveler_nest/model/hotel.dart';
-import 'package:traveler_nest/widgets/modal_sheets.dart';
+import 'package:traveler_nest/widgets/hotel_modal_sheets.dart';
+import 'package:traveler_nest/widgets/search_modal_sheet.dart';
 
 import '../main.dart';
 
 class HomepageHotelCard extends StatelessWidget {
   Hotel hotel;
-  HomepageHotelCard(this.hotel, {super.key});
+  bool isFavourite;
+  HomepageHotelCard(this.hotel, {super.key, this.isFavourite = false});
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +23,6 @@ class HomepageHotelCard extends StatelessWidget {
             enableDrag: true,
             isDismissible: true,
             useSafeArea: true,
-            backgroundColor: Colors.white,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(40),
-                topLeft: Radius.circular(40),
-              ),
-            ),
             builder: (BuildContext context) {
               return HotelModalSheet(
                 Hotel(
@@ -60,13 +55,18 @@ class HomepageHotelCard extends StatelessWidget {
                       "Self Check-in",
                       "Great Check-in Experience",
                       "Free Breakfast",
+                      "Free Morning Transportation",
                     ]),
+                isFavourite: isFavourite,
               );
             });
       },
       child: Card(
         elevation: 4.0,
         color: Colors.white,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+        surfaceTintColor: Colors.white,
         child: Column(
           children: [
             Stack(
@@ -97,8 +97,12 @@ class HomepageHotelCard extends StatelessWidget {
                       elevation: 4.0,
                     ),
                     icon: Icon(
-                      Icons.favorite_border_rounded,
-                      color: Colors.white.withOpacity(0.7),
+                      isFavourite
+                          ? Icons.favorite_rounded
+                          : Icons.favorite_border_rounded,
+                      color: isFavourite
+                          ? Colors.redAccent.withOpacity(0.9)
+                          : Colors.white.withOpacity(0.7),
                     ),
                   ),
                 )
@@ -214,7 +218,26 @@ class HomepageCityCard extends StatelessWidget {
   Widget build(BuildContext context) {
     if (cityImageName.isEmpty) cityImageName = cityName.toLowerCase();
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          elevation: 4,
+          enableDrag: true,
+          isDismissible: true,
+          useSafeArea: true,
+          backgroundColor: Colors.white,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(40),
+              topLeft: Radius.circular(40),
+            ),
+          ),
+          builder: (BuildContext context) => SearchModalSheet(
+            tags: ["${cityName[0].toUpperCase()}${cityName.substring(1)}"],
+          ),
+        );
+      },
       child: Card(
         elevation: 4,
         color: Colors.transparent,

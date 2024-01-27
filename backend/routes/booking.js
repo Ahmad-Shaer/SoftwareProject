@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 
 const { Schema, model } = mongoose;
 
+
 const bookingSchema = new Schema({
   checkInDate: String,
   checkOutDate: String,
@@ -17,7 +18,7 @@ const bookingSchema = new Schema({
 });
 
 const Booking = model('Booking', bookingSchema);
-const User = model('User');
+//const User = model('User');
 
 router.post('/bookings', async (req, res) => {
   try {

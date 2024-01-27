@@ -1,16 +1,16 @@
 import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:traveler_nest/pages/bookings_page.dart';
+import 'package:traveler_nest/pages/calender_page.dart';
+import 'package:traveler_nest/pages/favorites_page.dart';
 
 import 'package:traveler_nest/pages/homepage.dart';
 import 'package:traveler_nest/pages/profile_page.dart';
-import 'package:traveler_nest/pages/sign_up_page.dart';
 
 import '../main.dart';
-import '../model/hotel.dart';
-import '../widgets/modal_sheets.dart';
 import 'my_bookings.dart';
 
-enum _SelectedTab { home, calender, history, search, profile }
+enum _SelectedTab { home, calender, booking, favorites, profile }
 
 class PagesWrapper extends StatefulWidget {
   const PagesWrapper({super.key});
@@ -21,10 +21,23 @@ class PagesWrapper extends StatefulWidget {
 
 class _PagesWrapperState extends State<PagesWrapper> {
   var _selectedTab = _SelectedTab.home;
+  final PageController pageController = PageController();
 
-  void _handleIndexChanged(int i) {
+  void gotoProfilePage() {
     setState(() {
-      _selectedTab = _SelectedTab.values[i];
+      _selectedTab = _SelectedTab.profile;
+      pageController.jumpToPage(_SelectedTab.values.indexOf(_selectedTab));
+    });
+  }
+
+  void handleIndexChanged(int i) {
+    setState(() {
+      if (_SelectedTab.favorites == _SelectedTab.values[i]) {
+        showFavoriteModalSheet(context);
+      } else {
+        _selectedTab = _SelectedTab.values[i];
+        pageController.jumpToPage(_SelectedTab.values.indexOf(_selectedTab));
+      }
     });
   }
 
@@ -114,9 +127,13 @@ class _PagesWrapperState extends State<PagesWrapper> {
         ),
       ),
       body: PageView(
+        controller: pageController,
         physics: const NeverScrollableScrollPhysics(),
         children: [
-          HomePage(),
+          HomePage(gotoProfilePage),
+          CalenderPage(),
+          BookingsPage(),
+          Placeholder(),
           UserProfilePage(),
         ],
       ),
@@ -135,7 +152,7 @@ class _PagesWrapperState extends State<PagesWrapper> {
           pad: 3,
           iconSize: 18.0,
           borderRadius: BorderRadius.circular(45.0),
-          onTap: (index) => _handleIndexChanged(index),
+          onTap: (index) => handleIndexChanged(index),
           items: const [
             TabItem(
               icon: Icons.home,
@@ -150,8 +167,8 @@ class _PagesWrapperState extends State<PagesWrapper> {
               title: 'bookings',
             ),
             TabItem(
-              icon: Icons.search_rounded,
-              title: 'search',
+              icon: Icons.favorite,
+              title: 'favorites',
             ),
             TabItem(
               icon: Icons.account_circle_rounded,
