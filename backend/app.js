@@ -10,10 +10,14 @@ app.use(cors());
 const uri = 'mongodb://localhost:27017/Project';
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-const bookingroute = require("./routes/booking.js");
-const userRoute = require("./routes/user.js");
+const { router : bookingRoute}  = require("./routes/booking.js");
+const { router : hotelRoute}  = require("./routes/hotel.js");
+const { router: userRoute} = require("./routes/user.js");
+const { router : opRoute} = require("./API/operations.js");
 app.use("/user",userRoute);
-app.use("",bookingroute);
+app.use("/booking",bookingRoute);
+app.use("/hotel",hotelRoute);
+app.use("/",opRoute);
 const port = 8000;
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);

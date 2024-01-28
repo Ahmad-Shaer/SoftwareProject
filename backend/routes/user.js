@@ -16,7 +16,8 @@ const userSchema = new Schema({
   isAdmin : Boolean,
   favourites : Array,
   bookingsID: Array,
-});
+  notification: Array,
+},{ collection: 'users' });
 const User = model('User', userSchema);
 
 router.post('/signup', async (req, res) => {
@@ -72,4 +73,4 @@ router.post('/login', async (req, res) => {
   }
 });
 
-module.exports = router;
+module.exports = {User, router }  ;

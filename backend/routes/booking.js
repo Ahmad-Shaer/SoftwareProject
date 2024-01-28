@@ -4,44 +4,36 @@ const mongoose = require('mongoose');
 
 const { Schema, model } = mongoose;
 
-
-const bookingSchema = new Schema({
-  checkInDate: String,
-  checkOutDate: String,
-  roomType: [String],
-  hotelID: String,
-  totalPrice: Number,
+const BookingSchema = new Schema({
+  from: String,
+  to: String,
+  hotelName: String,
   discount: Number,
-  numberOfAdults: Number,
-  email: String,
-  phoneNumber: String,
-});
+  numberOfBeds: Number,
+  cost: Number,
+}, { collection: 'bookings' });
 
-const Booking = model('Booking', bookingSchema);
-//const User = model('User');
+const Booking = model('Booking', BookingSchema);  // Registration for Booking model
+
+const { User : User} = require('./user.js');
 
 router.post('/bookings', async (req, res) => {
   try {
     const {
-      checkInDate,
-      checkOutDate,
-      roomType,
-      numberOfAdults,
-      email,
-      phoneNumber,
+      from,
+      to,
+      numberOfBeds,
+      cost,
     } = req.body;
 
     const newBooking = new Booking({
-      checkInDate,
-      checkOutDate,
-      roomType,
-      numberOfAdults,
-      email,
-      phoneNumber,
+      from,
+      to,
+      numberOfBeds,
+      cost,
     });
 
     const savedBooking = await newBooking.save();
-
 
     await User.findOneAndUpdate(
       { email: email },
@@ -49,7 +41,6 @@ router.post('/bookings', async (req, res) => {
       { new: true }
     );
 
-    console.log('Booking saved:', savedBooking);
     res.status(201).json({ message: 'Booking saved successfully', booking: savedBooking });
   } catch (error) {
     console.error('Error saving booking:', error);
@@ -57,4 +48,4 @@ router.post('/bookings', async (req, res) => {
   }
 });
 
-module.exports = router;
+module.exports = {Booking, router} ;

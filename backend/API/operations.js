@@ -4,24 +4,24 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 
-
 const { Schema, model } = mongoose;
 
-const userSchema = new Schema({
-  username: String,
-  email: String,
-  password: String,
-  country: String,
-  city: String,
-  phoneNumber: String,
-  isAdmin: Boolean,
-  favourites: Array,
-  bookingsID: Array,
-});
+const { User : User}  = require("../routes/user.js");
+const { Booking : Booking}  = require("../routes/booking.js");
+const { Hotel: Hotel} = require("../routes/hotel.js");
 
-const User = model('User', userSchema);
-const Booking = model('Booking');
-const Hotel = model('Hotel');
+
+router.post("/user/notification", async (req, res) => {
+    try {
+        const { email } = req.body;
+        const UserData = await User.findOne({ email });
+        const allNotification = UserData.notification;
+        res.status(200).json(allNotification);
+    } catch (error) {
+        console.error('Error fetching notifications:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
 
 router.post('/myBookings', async (req, res) => {
   try {
@@ -45,8 +45,7 @@ router.post('/myBookings', async (req, res) => {
     }));
 
     const validBookingsData = bookingsData.filter(booking => booking !== null);
-
-    res.status(200).json({ message: 'Bookings retrieved successfully', bookings: validBookingsData });
+    res.status(200).json(validBookingsData);
   } catch (error) {
     console.error('Error fetching bookings:', error);
     res.status(500).json({ message: 'Internal server error' });
@@ -118,4 +117,4 @@ router.post('/myFavourites', async (req, res) => {
 });
 
 
-module.exports = router;
+module.exports = {router};

@@ -32,7 +32,6 @@ class HomepageHotelCard extends StatelessWidget {
                     city: "Rammallah",
                     price: 190,
                     rate: 3.89,
-                    numberOfRates: 164,
                     address: "Beit-Wazan",
                     images: [
                       'assets/hotels/nablus/nab_0.png',
@@ -137,13 +136,7 @@ class HomepageHotelCard extends StatelessWidget {
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
-                            const SizedBox(width: 2.5),
-                            Text(
-                              '(${hotel.numberOfRates})',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w600,
-                              ),
-                            )
+
                           ],
                         ),
                       )

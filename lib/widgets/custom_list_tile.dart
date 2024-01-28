@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:timeago/timeago.dart' as Timeago;
+import 'package:traveler_nest/model/reservation.dart';
+import 'package:intl/intl.dart';
 
 import '../main.dart';
 import '../model/notification.dart';
@@ -146,6 +148,68 @@ Widget notificationListTile(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0),
       ),
+    ),
+  );
+}
+
+Widget reservationListTile(BuildContext context, Reservation reservation) {
+  var dateFormat = DateFormat('dd MMM');
+
+  return ListTile(
+    onTap: () {
+      showDialog(
+        context: context,
+        useSafeArea: true,
+        builder: (_) {
+          return Container(
+            margin: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width / 8,
+              vertical: MediaQuery.of(context).size.height / 6,
+            ),
+            color: Colors.white,
+            width: 200,
+            height: 200,
+            child: Text("hi"),
+          );
+        },
+      );
+    },
+    isThreeLine: true,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8.0),
+    ),
+    tileColor: const Color(0xffefefef),
+    leading: const Icon(Icons.book),
+    title: Text(
+      reservation.hotelName,
+      style: const TextStyle(
+          color: Color(0xFF99663b), fontWeight: FontWeight.bold),
+    ),
+    horizontalTitleGap: 5,
+    iconColor: const Color(0xFF230f04),
+    subtitle: Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 15),
+        Text(
+          '${dateFormat.format(reservation.from)} - ${dateFormat.format(reservation.to)}',
+          style: TextStyle(color: Colors.grey.shade700),
+        ),
+      ],
+    ),
+    minVerticalPadding: 20,
+    trailing: Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Text(
+          '₪${reservation.cost.round()}',
+          style: const TextStyle(
+            color: Color(0xff015607),
+            fontSize: 13,
+          ),
+        ),
+      ],
     ),
   );
 }

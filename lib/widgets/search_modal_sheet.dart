@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:traveler_nest/widgets/custom_dialog.dart';
 
 import '../main.dart';
 import '../model/hotel.dart';
 import 'custom_cards.dart';
+import 'package:http/http.dart' as http;
 
 class SearchModalSheet extends StatefulWidget {
   List<String>? tags;
@@ -17,50 +20,53 @@ class _SearchModalSheetState extends State<SearchModalSheet> {
   List<String> tags = [];
   RangeValues range = const RangeValues(0, 2000);
   RangeValues rateRange = const RangeValues(1, 5);
-  List<Hotel> hotels = [
-    Hotel(
-      imageSrcPath: 'assets/hotels/nablus/gold_0.png',
-      hotelName: "The Golden Tree",
-      availableRooms: ["4 guests", "2 bedrooms", "2 beds"],
-      city: "Nablus",
-      address: "Beit-Wazan",
-      price: 316,
-      rate: 4.96,
-      numberOfRates: 218,
-    ),
-    Hotel(
-      imageSrcPath: 'assets/hotels/nablus/khan_0.png',
-      hotelName: "The Khan Hotel",
-      availableRooms: ["2 yards", "2 bedrooms", "1 pool"],
-      city: "Jenin",
-      address: "Beit-Wazan",
-      price: 510,
-      rate: 4.82,
-      numberOfRates: 137,
-    ),
-    Hotel(
-      imageSrcPath: 'assets/hotels/nablus/teba_0.png',
-      hotelName: "The Teba",
-      availableRooms: ["2 yards", "2 bedrooms", "1 pool"],
-      city: "Ramallah",
-      address: "Beit-Wazan",
-      price: 750,
-      rate: 4.21,
-      numberOfRates: 56,
-    ),
-    Hotel(
-      imageSrcPath: 'assets/hotels/nablus/yass_0.png',
-      hotelName: "The Teba",
-      availableRooms: ["2 yards", "2 bathrooms", "1 pool"],
-      city: "Jerusalem",
-      price: 190,
-      rate: 3.89,
-      address: "Beit-Wazan",
-      numberOfRates: 164,
-    ),
-  ];
 
+  late bool isCollected;
+
+
+  List<Hotel> hotels = [];
   late List<Hotel> selected = [];
+
+
+
+  Future<List<Hotel>> fetchHotels() async {
+    List<Hotel> hotels = [];
+    try {
+      final response = await http.post(
+        Uri.parse('http://192.168.1.10:8000/hotel/all'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        List<dynamic> hotelList = json.decode(response.body);
+        for (var hotelData in hotelList) {
+          Hotel hotel = Hotel.fromJSON(json.encode(hotelData));
+          hotels.add(hotel);
+        }
+      } else {
+        print('Failed to fetch hotels. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+
+    return hotels;
+
+
+  }
+
+  void fillHotelsArray() async {
+    hotels = await fetchHotels();
+    selected = hotels;
+    setState(() {
+      isCollected = true;
+    });
+  }
+
+
+
 
   void search(String name) {
     setState(() {
@@ -115,13 +121,18 @@ class _SearchModalSheetState extends State<SearchModalSheet> {
     });
   }
 
+
+
   @override
   void initState() {
-    selected = hotels;
-    if (widget.tags != null && widget.tags!.isNotEmpty) {
-      tags = widget.tags!;
-      filterTags();
-    }
+    isCollected = false;
+    fillHotelsArray();
+
+    // selected = hotels;
+    // if (widget.tags != null && widget.tags!.isNotEmpty) {
+    //   tags = widget.tags!;
+    //   filterTags();
+    // }
     super.initState();
   }
 
@@ -304,16 +315,16 @@ class _SearchModalSheetState extends State<SearchModalSheet> {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: ListView.separated(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return HomepageHotelCard(selected[index]);
-                },
-                separatorBuilder: (context, index) =>
-                    const SizedBox(height: 25),
-                itemCount: selected.length,
-              ),
+              child: isCollected ?  ListView.separated(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return HomepageHotelCard(selected[index]);
+              },
+              separatorBuilder: (context, index) =>
+              const SizedBox(height: 25),
+              itemCount: selected.length,
+            ) : SizedBox(),
             ),
           ),
         ],

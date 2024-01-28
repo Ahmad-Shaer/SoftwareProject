@@ -10,6 +10,7 @@ class Assets {
   static const String assetsBord1 = 'assets/bord1.png';
   static const String assetsBord2 = 'assets/bord2.png';
   static const String assetsBord3 = 'assets/bord3.png';
+  static const String assetsCalenderBg = 'assets/calender_bg.jpg';
   static const String assetsCity0 = 'assets/city_0.png';
   static const String assetsCity1 = 'assets/city_1.png';
   static const String assetsCity10 = 'assets/city_10.png';
@@ -42,6 +43,7 @@ class Assets {
   static const String assetsNablusBg = 'assets/nablus_bg.jpg';
   static const String assetsQal = 'assets/qal.png';
   static const String assetsRamallah = 'assets/ramallah.png';
+  static const String assetsReservations = 'assets/reservations.jpg';
   static const String assetsReset = 'assets/reset.jpg';
   static const String assetsRpass = 'assets/rpass.png';
   static const String assetsSalim0 = 'assets/salim_0.png';

@@ -1,28 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:traveler_nest/pages/pages_wrapper.dart';
 import 'package:traveler_nest/widgets/button.dart';
 import '../main.dart';
 import 'sign_up_page.dart';
-import '../ForgotPasswordScreen.dart';
-import '../CityPage.dart';
+
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: LoginPage(),
-    );
-  }
-}
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -43,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
     final String password = passwordController.text;
 
     final response = await http.post(
-      Uri.parse('http://192.168.1.10:8000/user/login'),
+      Uri.parse('http://localhost:8000/user/login'),
       headers: <String, String>{
         'Content-Type': 'application/json',
       },
@@ -58,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) =>  HotelBookingApp(),
+          builder: (context) => PagesWrapper(),
         ),
       );
     } else {
@@ -68,7 +52,8 @@ class _LoginPageState extends State<LoginPage> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Login Failed'),
-            content: const Text('Invalid credentials. Please check your email and password.'),
+            content: const Text(
+                'Invalid credentials. Please check your email and password.'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
@@ -158,16 +143,15 @@ class _LoginPageState extends State<LoginPage> {
                   ],
                 ),
                 const SizedBox(height: 10.0),
-
                 InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ForgotPasswordScreen(),
-                      ),
-                    );
-                  },
+                  // onTap: () {
+                  //   Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //       builder: (context) => const ForgotPasswordScreen(),
+                  //     ),
+                  //   );
+                  // },
                   child: MouseRegion(
                     cursor: SystemMouseCursors.click,
                     child: Align(
@@ -175,14 +159,15 @@ class _LoginPageState extends State<LoginPage> {
                       child: Text(
                         'Forgot Password?',
                         style: TextStyle(
-                          color: Theme.of(context).extension<AppColors>()?.primaryColor,
+                          color: Theme.of(context)
+                              .extension<AppColors>()
+                              ?.primaryColor,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 20.0),
                 CustomButton(
                   onClick: () {
@@ -190,17 +175,33 @@ class _LoginPageState extends State<LoginPage> {
                   },
                   text: 'login',
                   textSize: 18.0,
-                  padding: const EdgeInsets.symmetric(horizontal: 64.0, vertical: 6.0),
-
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 64.0, vertical: 6.0),
                 ),
                 const SizedBox(height: 60.0),
                 Center(
                   child: RichText(
                     text: TextSpan(
                       children: <TextSpan>[
-                        TextSpan(text: 'Need an Account?', style: TextStyle(color: Theme.of(context).extension<AppColors>()?.primaryColor.withOpacity(0.65))),
-                        TextSpan(text: ' Sign up', style: TextStyle(color:  Theme.of(context).extension<AppColors>()?.primaryColor),
-                          recognizer: TapGestureRecognizer()..onTap = () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignupPage()),),
+                        TextSpan(
+                            text: 'Need an Account?',
+                            style: TextStyle(
+                                color: Theme.of(context)
+                                    .extension<AppColors>()
+                                    ?.primaryColor
+                                    .withOpacity(0.65))),
+                        TextSpan(
+                          text: ' Sign up',
+                          style: TextStyle(
+                              color: Theme.of(context)
+                                  .extension<AppColors>()
+                                  ?.primaryColor),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () => Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SignupPage()),
+                                ),
                         ),
                       ],
                     ),

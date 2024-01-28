@@ -250,7 +250,6 @@ class HomePage extends StatelessWidget {
                       address: "Beit-Wazan",
                       price: 316,
                       rate: 4.96,
-                      numberOfRates: 218,
                     ),
                   ),
                   HomepageHotelCard(
@@ -262,7 +261,6 @@ class HomePage extends StatelessWidget {
                       address: "Beit-Wazan",
                       price: 510,
                       rate: 4.82,
-                      numberOfRates: 137,
                     ),
                   ),
                   HomepageHotelCard(
@@ -274,7 +272,6 @@ class HomePage extends StatelessWidget {
                       address: "Beit-Wazan",
                       price: 750,
                       rate: 4.21,
-                      numberOfRates: 56,
                     ),
                   ),
                   HomepageHotelCard(
@@ -286,7 +283,6 @@ class HomePage extends StatelessWidget {
                       price: 190,
                       rate: 3.89,
                       address: "Beit-Wazan",
-                      numberOfRates: 164,
                     ),
                   ),
                 ],

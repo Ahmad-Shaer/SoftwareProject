@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
+import '../model/reservation.dart';
+
 class CalenderPage extends StatefulWidget {
   const CalenderPage({super.key});
 
@@ -18,8 +20,53 @@ class _CalenderPageState extends State<CalenderPage> {
           key: UniqueKey(),
           mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
-              height: 20,
+            Stack(
+              children: [
+                Opacity(
+                  opacity: 0.2,
+                  child: ClipPath(
+                    clipper: WaveClipper(),
+                    child: Container(
+                      height: 305,
+                      decoration:
+                          const BoxDecoration(color: Colors.black, boxShadow: [
+                        BoxShadow(
+                          color: Colors.black,
+                          blurRadius: 3.0,
+                          spreadRadius: 20.0,
+                          blurStyle: BlurStyle.solid,
+                        )
+                      ]),
+                    ),
+                  ),
+                ),
+                ClipPath(
+                  clipper: WaveClipper(),
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.deepOrange,
+                      image: DecorationImage(
+                        image: AssetImage("assets/calender_bg.jpg"),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    height: 300,
+                  ),
+                ),
+                Positioned(
+                  top: 240,
+                  left: MediaQuery.of(context).size.width / 2.15,
+                  child: const Text(
+                    "Calender",
+                    style: TextStyle(
+                      fontFamily: "Caveat",
+                      fontSize: 40.0,
+                      letterSpacing: 2.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
             ),
             Container(
               height: 800,
@@ -37,6 +84,7 @@ class _CalenderPageState extends State<CalenderPage> {
                 onTap: (details) {
                   print("${details.appointments![0].hotelName}");
                 },
+                todayHighlightColor: const Color(0xFFf4955c),
                 monthViewSettings: MonthViewSettings(
                   appointmentDisplayMode:
                       MonthAppointmentDisplayMode.appointment,
@@ -47,8 +95,8 @@ class _CalenderPageState extends State<CalenderPage> {
                   monthCellStyle: MonthCellStyle(
                     backgroundColor: Colors.white,
                     todayBackgroundColor: Colors.white,
-                    trailingDatesBackgroundColor: Colors.grey.withOpacity(0.6),
-                    leadingDatesBackgroundColor: Colors.grey.withOpacity(0.6),
+                    trailingDatesBackgroundColor: Colors.grey.withOpacity(0.4),
+                    leadingDatesBackgroundColor: Colors.grey.withOpacity(0.4),
                   ),
                   showAgenda: true,
                 ),
@@ -64,51 +112,42 @@ class _CalenderPageState extends State<CalenderPage> {
     final List<Reservation> reservations = <Reservation>[];
     final DateTime today = DateTime.now();
     DateTime startTime = DateTime(today.year, today.month, today.day, 9, 0, 0);
-    startTime = startTime.add(Duration(days: 3));
-    final DateTime endTime = startTime.add(const Duration(days: 2));
+    startTime = startTime.add(const Duration(days: 3));
+    final DateTime endTime = startTime.add(const Duration(days: 3));
 
-    reservations.add(Reservation('Golden Tree Hotel', startTime, endTime));
+    //reservations
+    //    .add(Reservation('Golden Tree Hotel', startTime, endTime, 50.0));
     return reservations;
   }
 }
 
-class ReservationDataSource extends CalendarDataSource {
-  ReservationDataSource(List<Reservation> source) {
-    appointments = source;
+class WaveClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    var path = Path();
+    path.lineTo(0, size.height);
+
+    var firstPointStart = Offset(size.width / 5, size.height);
+    var firstPointEnd = Offset(size.width / 2.25, size.height - 50.0);
+
+    path.quadraticBezierTo(firstPointStart.dx, firstPointStart.dy,
+        firstPointEnd.dx, firstPointEnd.dy);
+
+    var secondPointStart =
+        Offset(size.width - (size.width / 3.24), size.height - 105);
+    var secondPointEnd = Offset(size.width, size.height - 10.0);
+
+    path.quadraticBezierTo(secondPointStart.dx, secondPointStart.dy,
+        secondPointEnd.dx, secondPointEnd.dy);
+
+    path.lineTo(size.width, 0);
+    path.close();
+
+    return path;
   }
 
   @override
-  DateTime getStartTime(int index) {
-    return appointments![index].from;
-  }
-
-  @override
-  DateTime getEndTime(int index) {
-    return appointments![index].to;
-  }
-
-  @override
-  String getSubject(int index) {
-    return appointments![index].hotelName;
-  }
-
-  @override
-  Color getColor(int index) {
-    return Colors.black87;
-  }
-
-  @override
-  bool isAllDay(int index) {
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
     return true;
   }
 }
-
-class Reservation {
-  Reservation(this.hotelName, this.from, this.to);
-
-  String hotelName;
-  DateTime from;
-  DateTime to;
-}
-
-// TODO: add reservation ID here to show it on tap in a dialog

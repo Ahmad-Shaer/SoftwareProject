@@ -7,24 +7,28 @@ const bcrypt = require('bcrypt');
 const { Schema, model } = mongoose;
 
 const hotelSchema = new Schema({
-  username: String,
+  hotelName: String,
   email: String,
   password: String,
-  country: String,
+  address: String,
   city: String,
-  phoneNumber: String,
-  description : String,
-  rooms: Array,
+  description: String,
+  availableRooms: Array,
   images: Array,
+  tags: Array,
+  rate: Number,
+},{ collection: 'Hotel' });
+
+const Hotel = model('Hotel', hotelSchema);
+
+router.post('/all', async (req, res) => {
+  try {
+    const allHotels = await Hotel.find();
+    res.status(200).json( allHotels );
+  } catch (error) {
+    console.error('Error fetching hotels:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 });
-const Hotel = model('Hotel', userSchema);
 
-router.post('/hotel', async (req, res) => {
-
-});
-
-router.post('/function', async (req, res) => {
-
-});
-
-module.exports = router;
+module.exports = { Hotel, router };

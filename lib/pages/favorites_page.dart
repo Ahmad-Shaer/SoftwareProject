@@ -26,7 +26,6 @@ class _FavoriteModalSheetState extends State<FavoriteModalSheet> {
       address: "Beit-Wazan",
       price: 316,
       rate: 4.96,
-      numberOfRates: 218,
     ),
     Hotel(
       imageSrcPath: 'assets/hotels/nablus/khan_0.png',
@@ -36,7 +35,6 @@ class _FavoriteModalSheetState extends State<FavoriteModalSheet> {
       address: "Beit-Wazan",
       price: 510,
       rate: 4.82,
-      numberOfRates: 137,
     ),
     Hotel(
       imageSrcPath: 'assets/hotels/nablus/teba_0.png',
@@ -46,7 +44,6 @@ class _FavoriteModalSheetState extends State<FavoriteModalSheet> {
       address: "Beit-Wazan",
       price: 750,
       rate: 4.21,
-      numberOfRates: 56,
     ),
     Hotel(
       imageSrcPath: 'assets/hotels/nablus/yass_0.png',
@@ -56,7 +53,6 @@ class _FavoriteModalSheetState extends State<FavoriteModalSheet> {
       price: 190,
       rate: 3.89,
       address: "Beit-Wazan",
-      numberOfRates: 164,
     ),
   ];
 

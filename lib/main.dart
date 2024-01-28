@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:traveler_nest/pages/bookings_page.dart';
 import 'package:traveler_nest/pages/calender_page.dart';
 import 'package:traveler_nest/pages/login_page.dart';
 import 'package:traveler_nest/pages/pages_wrapper.dart';
 import 'package:traveler_nest/pages/profile_page.dart';
 import 'package:traveler_nest/pages/sign_up_page.dart';
-import 'OnboardingVideoScreen.dart';
 
 void main() {
   runApp(const TravelNestApp());
@@ -21,9 +21,10 @@ class TravelNestApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light().copyWith(
         primaryColor: AppColors().primaryColor,
+        backgroundColor: Colors.white,
         secondaryHeaderColor: AppColors().secondaryColor,
         focusColor: AppColors().accentColor,
-        indicatorColor: AppColors().primaryColor,
+        indicatorColor: Colors.black,
         iconTheme: IconThemeData(color: AppColors().primaryColor),
         extensions: <ThemeExtension<dynamic>>[AppColors()],
         inputDecorationTheme: InputDecorationTheme(
@@ -49,7 +50,7 @@ class AppColors extends ThemeExtension<AppColors> {
   final primaryColor = const Color(0xFF65403a);
   final secondaryColor = const Color(0xFF18465a);
   final accentColor = const Color(0xFF242524);
-  final lightColor = const Color(0xFFeff1ee);
+  final lightColor = const Color(0xfffdfdfd);
   final darkColor = const Color(0xFF1b1c27);
 
   @override
@@ -305,11 +306,11 @@ class _BoardingScreenState extends State<BoardingScreen> {
                       duration: const Duration(milliseconds: 500),
                       curve: Curves.ease);
                 } else {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const OnboardingVideoScreen()),
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //       builder: (context) => const OnboardingVideoScreen()),
+                  // );
                 }
               },
               child: Text(_currentPage < 2 ? 'Skip' : 'Lets Go!'),

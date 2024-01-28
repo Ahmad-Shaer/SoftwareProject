@@ -1,8 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:traveler_nest/model/notification.dart';
 import 'package:traveler_nest/widgets/custom_list_tile.dart';
-
+import 'package:http/http.dart' as http;
 import '../main.dart';
 
 class NotificationsPage extends StatefulWidget {
@@ -17,27 +19,56 @@ class _NotificationsPageState extends State<NotificationsPage>
   List<NotificationInstance> notifications = [
     NotificationInstance(
       title: 'Notification',
-      subtitle: 'subtitle goes here...',
+      subtitle: 'reservation accepted',
       date: DateTime.now().subtract(
-        Duration(minutes: 12),
+        Duration(minutes: 5),
       ),
     ),
     NotificationInstance(
       title: 'Notification',
-      subtitle: 'subtitle goes here...',
+      subtitle: 'reservation failed',
       date: DateTime.now().subtract(
-        Duration(minutes: 12),
+        Duration(minutes: 7),
       ),
     ),
     NotificationInstance(
       title: 'Notification',
-      subtitle: 'subtitle goes here...',
+      subtitle: 'reservation accepted',
       date: DateTime.now().subtract(
-        Duration(minutes: 12),
+        Duration(minutes: 25),
       ),
     ),
   ];
 
+  Future <List<NotificationInstance>> getNotifications() async {
+    List<NotificationInstance> notifications = [];
+    try {
+      final email = "ahmad@gmail.com";
+      final response = await http.post(
+        Uri.parse('http://192.168.1.10:8000/user/notification'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+        body: json.encode({'email': email}),
+      );
+
+      if (response.statusCode == 200) {
+        List<dynamic> notificationList = json.decode(response.body);
+        print(response.body);
+        for (var notificationData in notificationList) {
+          NotificationInstance notificationInstance = NotificationInstance.fromJSON(json.encode(notificationData));
+          notifications.add(notificationInstance);
+        }
+      } else {
+        print('Failed to fetch notifications. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+
+    return notifications;
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,22 +135,33 @@ class _NotificationsPageState extends State<NotificationsPage>
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                child: ListView.separated(
-                  shrinkWrap: true,
-                  itemCount: notifications.length,
-                  itemBuilder: (context, index) {
-                    return notificationListTile(
-                      notification: notifications[index],
-                      onDelete: () {
-                        notifications.removeAt(index);
-                        setState(() {});
-                      },
-                    );
+                child: FutureBuilder(
+                  future: getNotifications(),
+                  builder: (context, snapshot) {
+                    if(snapshot.connectionState == ConnectionState.done){
+                      notifications = snapshot.data!;
+                      return ListView.separated(
+                        shrinkWrap: true,
+                        itemCount: notifications.length,
+                        itemBuilder: (context, index) {
+                          return notificationListTile(
+                            notification: notifications[index],
+                            onDelete: () {
+                              notifications.removeAt(index);
+                              setState(() {});
+                            },
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return const SizedBox(height: 20);
+                        },
+                      );
+                    }
+                      return CircularProgressIndicator();
+
                   },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return const SizedBox(height: 20);
-                  },
-                ),
+                )
+
               ),
             ),
           ],

@@ -2,6 +2,7 @@ import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:traveler_nest/model/hotel.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../main.dart';
 
@@ -174,14 +175,7 @@ class _HotelModalSheetState extends State<HotelModalSheet> {
                               fontSize: 16.0,
                             ),
                           ),
-                          const SizedBox(width: 3.0),
-                          Text(
-                            '(${hotel.numberOfRates} reviews)',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16.0,
-                            ),
-                          )
+
                         ],
                       ),
                       const SizedBox(height: 15.0),
@@ -316,7 +310,7 @@ class _HotelModalSheetState extends State<HotelModalSheet> {
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
+                    const Text(
                       "1 night:",
                       style: TextStyle(
                         color: Colors.grey,
@@ -324,7 +318,7 @@ class _HotelModalSheetState extends State<HotelModalSheet> {
                     ),
                     Text(
                       "₪${hotel.price.round()}",
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 18.0,
                       ),
@@ -332,7 +326,9 @@ class _HotelModalSheetState extends State<HotelModalSheet> {
                   ],
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    dialog(context);
+                  },
                   style:
                       ElevatedButton.styleFrom(backgroundColor: Colors.white),
                   child: const Text(
@@ -350,4 +346,55 @@ class _HotelModalSheetState extends State<HotelModalSheet> {
       ),
     );
   }
+}
+
+void dialog(BuildContext context) {
+  showDialog(
+    context: context,
+    useSafeArea: true,
+    builder: (_) {
+      return Container(
+        margin: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width / 20,
+          vertical: MediaQuery.of(context).size.height / 12,
+        ),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+        width: 200,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SfDateRangePicker(
+                enablePastDates: false,
+                allowViewNavigation: true,
+                selectionMode: DateRangePickerSelectionMode.range,
+              ),
+            ),
+            Divider(),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: Text(
+                        "Available Rooms",
+                        style: TextStyle(
+                          fontSize: 18.0,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
 }

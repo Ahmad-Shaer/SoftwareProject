@@ -103,7 +103,7 @@ class SignupPage extends StatelessWidget {
 
     final response = await http.post(
 
-      Uri.parse("http://192.168.1.10:8000/user/signup"),
+      Uri.parse("http://localhost:8000/user/signup"),
 
       headers: <String, String>{
         'Content-Type': 'application/json',
