@@ -1,5 +1,6 @@
 import 'dart:convert';
-
+import 'package:provider/provider.dart';
+import 'package:traveler_nest/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:traveler_nest/widgets/custom_list_tile.dart';
@@ -28,10 +29,10 @@ class _BookingsPageState extends State<BookingsPage> {
     super.initState();
   }
 
-  Future <List<Reservation>> getReservations() async {
+  Future <List<Reservation>> getReservations(BuildContext context) async {
     List<Reservation> reservationsTemp = [];
     try {
-      final email = "ahmad@gmail.com";
+      final email = context.read<UserProvider>().currentUser.email;
       final response = await http.post(
         Uri.parse('http://192.168.1.10:8000/myBookings'),
         headers: <String, String>{
@@ -113,7 +114,7 @@ class _BookingsPageState extends State<BookingsPage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: FutureBuilder(
-              future: getReservations(),
+              future: getReservations(context),
               builder: (context, snapshot) {
                 if(snapshot.connectionState == ConnectionState.done){
                   reservations = snapshot.data!; // TODO

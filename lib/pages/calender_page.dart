@@ -1,6 +1,9 @@
+import 'dart:convert';
+import 'package:provider/provider.dart';
+import 'package:traveler_nest/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-
+import 'package:http/http.dart' as http;
 import '../model/reservation.dart';
 
 class CalenderPage extends StatefulWidget {
@@ -11,6 +14,12 @@ class CalenderPage extends StatefulWidget {
 }
 
 class _CalenderPageState extends State<CalenderPage> {
+  @override
+  void initState() {
+    super.initState();
+    fetchReservations(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,19 +116,43 @@ class _CalenderPageState extends State<CalenderPage> {
       ),
     );
   }
-
+   List<Reservation>  reservations= [] ;
   List<Reservation> _getDataSource() {
-    final List<Reservation> reservations = <Reservation>[];
-    final DateTime today = DateTime.now();
-    DateTime startTime = DateTime(today.year, today.month, today.day, 9, 0, 0);
-    startTime = startTime.add(const Duration(days: 3));
-    final DateTime endTime = startTime.add(const Duration(days: 3));
-
-    //reservations
-    //    .add(Reservation('Golden Tree Hotel', startTime, endTime, 50.0));
     return reservations;
   }
+
+  void fetchReservations(BuildContext context) async {
+    List<Reservation> reservationsTemp = [];
+    try {
+      final email = context.read<UserProvider>().currentUser.email;
+      final response = await http.post(
+        Uri.parse('http://192.168.1.10:8000/myBookings'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+        body: json.encode({'email': email}),
+      );
+
+      if (response.statusCode == 200) {
+        List<dynamic> bookingList = json.decode(response.body);
+        for (var bookingData in bookingList) {
+          Reservation bookingInstance = Reservation.fromJSON(json.encode(bookingData));
+          reservationsTemp.add(bookingInstance);
+        }
+        setState(() {
+          reservations = reservationsTemp;
+        });
+      } else {
+        print('Failed to fetch bookings. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+
+  }
+
 }
+
 
 class WaveClipper extends CustomClipper<Path> {
   @override

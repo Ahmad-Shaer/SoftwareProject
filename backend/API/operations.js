@@ -51,38 +51,66 @@ router.post('/myBookings', async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 });
-
 router.post('/addToFavourites', async (req, res) => {
     try {
-        const { email, hotelID } = req.body;
+        const { email, hotelName } = req.body;
 
         const existingUser = await User.findOne({ email });
+        const existingHotel = await Hotel.findOne({ hotelName });
 
-        if (!existingUser) {
-          return res.status(404).json({ message: 'User not found' });
+        if (!existingUser || !existingHotel) {
+            return res.status(404).json({ message: 'User or Hotel not found' });
         }
 
-        const isHotelInFavourites = existingUser.favourites.includes(hotelID);
+        const hotelID = existingHotel._id;
+        const objectIdHotelID = new mongoose.Types.ObjectId(hotelID);
+
+        const isHotelInFavourites = existingUser.favourites.map(id => id.toString()).includes(objectIdHotelID.toString());
 
         if (isHotelInFavourites) {
-          await User.findOneAndUpdate(
-            { email: email },
-            { $pull: { favourites: hotelID } },
-            { new: true }
-          );
-          res.status(200).json({ message: 'Hotel removed from favourites' });
+            const updatedUser = await User.findOneAndUpdate(
+                { email: email },
+                { $pull: { favourites: objectIdHotelID.toString() } },
+                { new: true }
+            );
+            console.log(objectIdHotelID + 'here');
+            res.status(200).json({ message: 'Hotel removed from favourites' });
         } else {
-          await User.findOneAndUpdate(
-            { email: email },
-            { $addToSet: { favourites: hotelID } },
-            { new: true }
-          );
-          res.status(200).json({ message: 'Hotel added to favourites' });
+            const updatedUser = await User.findOneAndUpdate(
+                { email: email },
+                { $addToSet: { favourites: objectIdHotelID.toString() } },
+                { new: true }
+            );
+            res.status(200).json({ message: 'Hotel added to favourites' });
         }
     } catch (error) {
         console.error('Error adding to favourites:', error);
         res.status(500).json({ message: 'Internal server error' });
-      }
+    }
+});
+
+
+router.post('/updateUsername', async (req, res) => {
+    try {
+        const { email, username } = req.body;
+
+        const existingUser = await User.findOne({ email });
+
+        if (!existingUser) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        console.log(email + " " + username);
+        await User.findOneAndUpdate(
+            { email: email },
+            { $set: { username: username } },
+            { new: true }
+        );
+
+        res.status(200).json({ message: 'Username updated' });
+    } catch (error) {
+        console.error('Error updating username:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
 });
 
 
@@ -106,10 +134,7 @@ router.post('/myFavourites', async (req, res) => {
 
           return hotel;
         }));
-
-        const validHotelsData = favouritesData.filter(hotel => hotel !== null);
-
-        res.status(200).json({ message: 'Hotels retrieved successfully', Hotels: validHotelsData });
+        res.status(200).json(favouritesData );
       } catch (error) {
         console.error('Error fetching Hotels:', error);
         res.status(500).json({ message: 'Internal server error' });

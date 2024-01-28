@@ -1,10 +1,15 @@
+import 'dart:convert';
+import 'dart:math';
+import '../providers/user_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:traveler_nest/model/hotel.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
-
+import 'package:http/http.dart' as http;
 import '../main.dart';
+import '../model/room.dart';
 
 class HotelModalSheet extends StatefulWidget {
   final Hotel hotel;
@@ -18,7 +23,8 @@ class HotelModalSheet extends StatefulWidget {
 class _HotelModalSheetState extends State<HotelModalSheet> {
   final controller = PageController(viewportFraction: 1, keepPage: true);
   late final Hotel hotel;
-  late final bool isFavourite;
+  bool isFavourite = false ;
+
   @override
   void initState() {
     hotel = widget.hotel;
@@ -26,11 +32,37 @@ class _HotelModalSheetState extends State<HotelModalSheet> {
     super.initState();
   }
 
+
+  void updateFavourite(BuildContext context) async{
+    try {
+      final email = context.read<UserProvider>().currentUser.email;
+      final response = await http.post(
+        Uri.parse('http://192.168.1.10:8000/addToFavourites'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+        body: json.encode({'email': email,'hotelName': hotel.hotelName}),
+      );
+
+
+      if (response.statusCode == 200) {
+        print(json.decode(response.body));
+        setState(() {
+          isFavourite = !isFavourite;
+        });
+      } else {
+        print('Failed to fetch hotels. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final images = List.generate(
       hotel.images!.length,
-      (index) => Container(
+          (index) => Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(40.0),
         ),
@@ -124,7 +156,7 @@ class _HotelModalSheetState extends State<HotelModalSheet> {
                     top: 16.0,
                     child: IconButton(
                       onPressed: () {
-                        // TODO: favorite this hotel
+                        updateFavourite(context);
                       },
                       style: IconButton.styleFrom(
                         backgroundColor: Colors.grey.withOpacity(0.65),
@@ -147,7 +179,7 @@ class _HotelModalSheetState extends State<HotelModalSheet> {
             Expanded(
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
+                const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -175,7 +207,6 @@ class _HotelModalSheetState extends State<HotelModalSheet> {
                               fontSize: 16.0,
                             ),
                           ),
-
                         ],
                       ),
                       const SizedBox(height: 15.0),
@@ -216,37 +247,37 @@ class _HotelModalSheetState extends State<HotelModalSheet> {
                         direction: Axis.horizontal,
                         children: hotel.tags != null
                             ? List.generate(
-                                hotel.tags!.length,
-                                (index) => Chip(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10.0, vertical: 2),
-                                  labelPadding: EdgeInsets.zero,
-                                  elevation: 0,
-                                  backgroundColor:
-                                      Colors.grey.withOpacity(0.45),
-                                  side: const BorderSide(
-                                    color: Colors.transparent,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(24.0),
-                                  ),
-                                  label: Text(
-                                    hotel.tags![index],
-                                    style: const TextStyle(
-                                      fontSize: 12.0,
-                                    ),
-                                  ),
-                                ),
-                              )
+                          hotel.tags!.length,
+                              (index) => Chip(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10.0, vertical: 2),
+                            labelPadding: EdgeInsets.zero,
+                            elevation: 0,
+                            backgroundColor:
+                            Colors.grey.withOpacity(0.45),
+                            side: const BorderSide(
+                              color: Colors.transparent,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(24.0),
+                            ),
+                            label: Text(
+                              hotel.tags![index],
+                              style: const TextStyle(
+                                fontSize: 12.0,
+                              ),
+                            ),
+                          ),
+                        )
                             : [
-                                const Text(
-                                  "none",
-                                  style: TextStyle(
-                                    fontSize: 16.0,
-                                    color: Colors.grey,
-                                  ),
-                                )
-                              ],
+                          const Text(
+                            "none",
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: Colors.grey,
+                            ),
+                          )
+                        ],
                       ),
                       const SizedBox(height: 15.0),
                       Divider(
@@ -256,32 +287,32 @@ class _HotelModalSheetState extends State<HotelModalSheet> {
                       const SizedBox(height: 15.0),
                       ...(hotel.features != null
                           ? (List.generate(
-                              hotel.features!.length,
-                              (index) => Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 6.0),
-                                child: Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.stars_rounded,
-                                      color: Colors.black,
-                                      size: 22.0,
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                      hotel.features![index],
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 15.0,
-                                      ),
-                                    ),
-                                  ],
+                        hotel.features!.length,
+                            (index) => Padding(
+                          padding:
+                          const EdgeInsets.symmetric(vertical: 6.0),
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.stars_rounded,
+                                color: Colors.black,
+                                size: 22.0,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                hotel.features![index],
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 15.0,
                                 ),
                               ),
-                            ))
+                            ],
+                          ),
+                        ),
+                      ))
                           : [
-                              const SizedBox(),
-                            ]),
+                        const SizedBox(),
+                      ]),
                       const SizedBox(height: 80.0),
                     ],
                   ),
@@ -303,7 +334,7 @@ class _HotelModalSheetState extends State<HotelModalSheet> {
           ),
           child: Padding(
             padding:
-                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+            const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -327,10 +358,14 @@ class _HotelModalSheetState extends State<HotelModalSheet> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    dialog(context);
+                    showDialog(
+                      context: context,
+                      useSafeArea: true,
+                      builder: (context) => RoomPicker(hotel),
+                    );
                   },
                   style:
-                      ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                  ElevatedButton.styleFrom(backgroundColor: Colors.white),
                   child: const Text(
                     "Book now",
                     style: TextStyle(
@@ -348,53 +383,193 @@ class _HotelModalSheetState extends State<HotelModalSheet> {
   }
 }
 
-void dialog(BuildContext context) {
-  showDialog(
-    context: context,
-    useSafeArea: true,
-    builder: (_) {
-      return Container(
-        margin: EdgeInsets.symmetric(
-          horizontal: MediaQuery.of(context).size.width / 20,
-          vertical: MediaQuery.of(context).size.height / 12,
-        ),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16.0),
-        ),
-        width: 200,
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SfDateRangePicker(
-                enablePastDates: false,
-                allowViewNavigation: true,
-                selectionMode: DateRangePickerSelectionMode.range,
-              ),
+class RoomPicker extends StatefulWidget {
+  Hotel hotel;
+  RoomPicker( this.hotel, {super.key});
+
+  @override
+  State<RoomPicker> createState() => _RoomPickerState();
+}
+
+
+class _RoomPickerState extends State<RoomPicker> {
+  int _selectedIndex = -1;
+  late PickerDateRange range;
+  int numbersDifference = 1;
+  late Hotel hotel;
+  List<Room> rooms = [
+    Room(numberOfBeds: 3, price: 120.0),
+    Room(numberOfBeds: 2, price: 70.0),
+    Room(numberOfBeds: 4, price: 112.0),
+    Room(numberOfBeds: 2, price: 92.0),
+    Room(numberOfBeds: 2, price: 42.0),
+  ];
+  void bookRoom (BuildContext context)async {
+    try {
+      final email = context.read<UserProvider>().currentUser.email;
+       final hotelName =hotel.hotelName ;
+      final from = range.startDate ;
+      final to = range.endDate ;
+      final cost = rooms[_selectedIndex].price.round() * numbersDifference ;
+      print(email + " " +  hotelName + " " + from.toString() + " " + to.toString() + " " + cost.toString());
+      final response = await http.post(
+        Uri.parse('http://192.168.1.10:8000/bookings'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+        body: json.encode({'email': email,'hotelName' : hotelName, 'from' : from.toString(), 'to' : to.toString(), 'cost' : cost.toDouble()}),
+      );
+
+
+
+        setState(() {
+        Navigator.pop(context);
+        });
+
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+  @override
+  void initState() {
+    hotel = widget.hotel;
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(
+        horizontal: MediaQuery.of(context).size.width / 20,
+        vertical: MediaQuery.of(context).size.height / 12,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16.0),
+      ),
+      width: 200,
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SfDateRangePicker(
+              enablePastDates: false,
+              allowViewNavigation: true,
+              selectionMode: DateRangePickerSelectionMode.range,
+              onSelectionChanged: (args) {
+                if(args.value != null && args.value.endDate != null && args.value.startDate != null){
+                  range = args.value;
+                  numbersDifference = max(range.endDate!.difference(range.startDate!).inDays, 1);
+                  rooms.shuffle();
+
+                }else {
+                  numbersDifference = 1;
+                }
+                setState(() {
+                });
+
+              },
             ),
-            Divider(),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Center(
-                      child: Text(
-                        "Available Rooms",
-                        style: TextStyle(
-                          fontSize: 18.0,
-                        ),
+          ),
+          const Divider(),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Center(
+                    child: Text(
+                      "Available Rooms",
+                      style: TextStyle(
+                        fontSize: 18.0,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(height: 15),
+                  Expanded(
+                    child: ListView.separated(
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (context, index) => GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _selectedIndex = index;
+                          });
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20.0, vertical: 6.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: _selectedIndex == index
+                                  ? Colors.purple
+                                  : Colors.grey,
+                              width: _selectedIndex == index ? 2 : 1,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                children: [
+                                  Text("Room ${index + 1}"),
+                                  Text(
+                                    "${rooms[index].numberOfBeds} beds",
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                ],
+                              ),
+                              Text("₪${rooms[index].price.round() * numbersDifference}"),
+                            ],
+                          ),
+                        ),
+                      ),
+                      separatorBuilder: (_, index) =>
+                      const SizedBox(height: 15),
+                      itemCount: rooms.length,
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  const Divider(),
+                  const SizedBox(height: 5),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          foregroundColor: Colors.transparent,
+                          side: const BorderSide(color: Colors.purple),
+                          shadowColor: Colors.transparent,
+                        ),
+                        child: const Text(
+                          "cancel",
+                          style: TextStyle(color: Colors.purple),
+                        ),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          bookRoom(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.purple,
+                        ),
+                        child: const Text(
+                          "Book Now!",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      );
-    },
-  );
+          ),
+        ],
+      ),
+    );
+  }
 }

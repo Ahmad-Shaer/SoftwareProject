@@ -15,7 +15,7 @@ const { router : hotelRoute}  = require("./routes/hotel.js");
 const { router: userRoute} = require("./routes/user.js");
 const { router : opRoute} = require("./API/operations.js");
 app.use("/user",userRoute);
-app.use("/booking",bookingRoute);
+app.use("",bookingRoute);
 app.use("/hotel",hotelRoute);
 app.use("/",opRoute);
 const port = 8000;

@@ -25,37 +25,7 @@ class HomepageHotelCard extends StatelessWidget {
             useSafeArea: true,
             builder: (BuildContext context) {
               return HotelModalSheet(
-                Hotel(
-                    imageSrcPath: 'assets/hotels/nablus/nab_0.png',
-                    hotelName: "The Teba",
-                    availableRooms: ["2 yards", "2 bathrooms", "1 pool"],
-                    city: "Rammallah",
-                    price: 190,
-                    rate: 3.89,
-                    address: "Beit-Wazan",
-                    images: [
-                      'assets/hotels/nablus/nab_0.png',
-                      'assets/hotels/nablus/nab_1.png',
-                      'assets/hotels/nablus/nab_2.png',
-                      "assets/hotels/nablus/nab_3.png",
-                      "assets/hotels/nablus/nab_4.png"
-                    ],
-                    tags: [
-                      "Wi-Fi",
-                      "Indoor fireplace",
-                      "Hair dryer",
-                      "Washing Machine",
-                      "Dishwaser",
-                      "Dryer",
-                      "Pool",
-                      "Cafeteria",
-                    ],
-                    features: [
-                      "Self Check-in",
-                      "Great Check-in Experience",
-                      "Free Breakfast",
-                      "Free Morning Transportation",
-                    ]),
+                hotel,
                 isFavourite: isFavourite,
               );
             });

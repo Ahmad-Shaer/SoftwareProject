@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:traveler_nest/widgets/custom_dialog.dart';
-
+import 'package:provider/provider.dart';
+import 'package:traveler_nest/providers/user_provider.dart';
 import '../main.dart';
 import '../model/hotel.dart';
 import 'custom_cards.dart';
@@ -26,7 +27,6 @@ class _SearchModalSheetState extends State<SearchModalSheet> {
 
   List<Hotel> hotels = [];
   late List<Hotel> selected = [];
-
 
 
   Future<List<Hotel>> fetchHotels() async {
@@ -62,6 +62,10 @@ class _SearchModalSheetState extends State<SearchModalSheet> {
     selected = hotels;
     setState(() {
       isCollected = true;
+      if (widget.tags != null && widget.tags!.isNotEmpty) {
+        tags = widget.tags!;
+        filterTags();
+      }
     });
   }
 
@@ -128,11 +132,7 @@ class _SearchModalSheetState extends State<SearchModalSheet> {
     isCollected = false;
     fillHotelsArray();
 
-    // selected = hotels;
-    // if (widget.tags != null && widget.tags!.isNotEmpty) {
-    //   tags = widget.tags!;
-    //   filterTags();
-    // }
+
     super.initState();
   }
 

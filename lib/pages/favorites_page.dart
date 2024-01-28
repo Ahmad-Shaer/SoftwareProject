@@ -1,10 +1,12 @@
+import 'dart:convert';
+import 'package:provider/provider.dart';
+import 'package:traveler_nest/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:traveler_nest/widgets/custom_dialog.dart';
-
+import 'package:http/http.dart' as http;
 import '../main.dart';
 import '../model/hotel.dart';
 import '../widgets/custom_cards.dart';
-
 class FavoriteModalSheet extends StatefulWidget {
   List<String>? tags;
   FavoriteModalSheet({super.key, this.tags});
@@ -17,54 +19,68 @@ class _FavoriteModalSheetState extends State<FavoriteModalSheet> {
   List<String> tags = [];
   RangeValues range = const RangeValues(0, 2000);
   RangeValues rateRange = const RangeValues(1, 5);
-  List<Hotel> hotels = [
-    Hotel(
-      imageSrcPath: 'assets/hotels/nablus/gold_0.png',
-      hotelName: "The Golden Tree",
-      availableRooms: ["4 guests", "2 bedrooms", "2 beds"],
-      city: "Nablus",
-      address: "Beit-Wazan",
-      price: 316,
-      rate: 4.96,
-    ),
-    Hotel(
-      imageSrcPath: 'assets/hotels/nablus/khan_0.png',
-      hotelName: "The Khan Hotel",
-      availableRooms: ["2 yards", "2 bedrooms", "1 pool"],
-      city: "Jenin",
-      address: "Beit-Wazan",
-      price: 510,
-      rate: 4.82,
-    ),
-    Hotel(
-      imageSrcPath: 'assets/hotels/nablus/teba_0.png',
-      hotelName: "The Teba",
-      availableRooms: ["2 yards", "2 bedrooms", "1 pool"],
-      city: "Ramallah",
-      address: "Beit-Wazan",
-      price: 750,
-      rate: 4.21,
-    ),
-    Hotel(
-      imageSrcPath: 'assets/hotels/nablus/yass_0.png',
-      hotelName: "The Teba",
-      availableRooms: ["2 yards", "2 bathrooms", "1 pool"],
-      city: "Jerusalem",
-      price: 190,
-      rate: 3.89,
-      address: "Beit-Wazan",
-    ),
-  ];
 
+  late bool isCollected;
+
+
+  List<Hotel> hotels = [];
   late List<Hotel> selected = [];
+
+
+  Future<List<Hotel>> fetchHotels(BuildContext context) async {
+    List<Hotel> hotels = [];
+    try {
+      final email = context.read<UserProvider>().currentUser.email;
+      final response = await http.post(
+        Uri.parse('http://192.168.1.10:8000/myFavourites'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+        body: json.encode({'email': email}),
+      );
+
+
+      if (response.statusCode == 200) {
+        print(json.decode(response.body));
+        List<dynamic> hotelList = json.decode(response.body);
+        for (var hotelData in hotelList) {
+          Hotel hotel = Hotel.fromJSON(json.encode(hotelData));
+          hotels.add(hotel);
+        }
+      } else {
+        print('Failed to fetch hotels. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+
+    return hotels;
+
+
+  }
+
+  void fillHotelsArray() async {
+    hotels = await fetchHotels(context);
+    selected = hotels;
+    setState(() {
+      isCollected = true;
+      if (widget.tags != null && widget.tags!.isNotEmpty) {
+        tags = widget.tags!;
+        filterTags();
+      }
+    });
+  }
+
+
+
 
   void search(String name) {
     setState(() {
       selected = selected
           .where((obj) => obj.hotelName
-              .toLowerCase()
-              .replaceAll("hotel", "")
-              .contains(name.toLowerCase()))
+          .toLowerCase()
+          .replaceAll("hotel", "")
+          .contains(name.toLowerCase()))
           .toList();
     });
   }
@@ -73,7 +89,7 @@ class _FavoriteModalSheetState extends State<FavoriteModalSheet> {
     setState(() {
       selected = selected
           .where((obj) =>
-              obj.city.toLowerCase().contains(cityName.trim().toLowerCase()))
+          obj.city.toLowerCase().contains(cityName.trim().toLowerCase()))
           .toList();
     });
   }
@@ -90,7 +106,7 @@ class _FavoriteModalSheetState extends State<FavoriteModalSheet> {
     setState(() {
       selected = selected
           .where((obj) =>
-              (obj.rate >= rateRange.start && obj.rate <= rateRange.end))
+      (obj.rate >= rateRange.start && obj.rate <= rateRange.end))
           .toList();
     });
   }
@@ -111,13 +127,14 @@ class _FavoriteModalSheetState extends State<FavoriteModalSheet> {
     });
   }
 
+
+
   @override
   void initState() {
-    selected = hotels;
-    if (widget.tags != null && widget.tags!.isNotEmpty) {
-      tags = widget.tags!;
-      filterTags();
-    }
+    isCollected = false;
+    fillHotelsArray();
+
+
     super.initState();
   }
 
@@ -240,7 +257,7 @@ class _FavoriteModalSheetState extends State<FavoriteModalSheet> {
                   ),
                   focusColor: Colors.black,
                   focusedBorder:
-                      OutlineInputBorder(borderSide: BorderSide.none),
+                  OutlineInputBorder(borderSide: BorderSide.none),
                   border: OutlineInputBorder(
                     borderSide: BorderSide.none,
                   ),
@@ -258,7 +275,7 @@ class _FavoriteModalSheetState extends State<FavoriteModalSheet> {
                 alignment: WrapAlignment.start,
                 children: List.generate(
                   tags.length,
-                  (index) => FilterChip(
+                      (index) => FilterChip(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 10.0, vertical: 2),
                     labelPadding: EdgeInsets.zero,
@@ -300,19 +317,16 @@ class _FavoriteModalSheetState extends State<FavoriteModalSheet> {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: ListView.separated(
+              child: isCollected ?  ListView.separated(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  return HomepageHotelCard(
-                    selected[index],
-                    isFavourite: true,
-                  );
+                  return HomepageHotelCard(selected[index], isFavourite: true,);
                 },
                 separatorBuilder: (context, index) =>
-                    const SizedBox(height: 25),
+                const SizedBox(height: 25),
                 itemCount: selected.length,
-              ),
+              ) : SizedBox(),
             ),
           ),
         ],

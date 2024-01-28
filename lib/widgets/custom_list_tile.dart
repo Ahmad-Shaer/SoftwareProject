@@ -16,20 +16,17 @@ Widget profileListTile(
       shape: RoundedRectangleBorder(
         borderRadius: isFirst
             ? const BorderRadius.only(
-                topLeft: Radius.circular(14.0),
-                topRight: Radius.circular(14.0),
-              )
+          topLeft: Radius.circular(14.0),
+          topRight: Radius.circular(14.0),
+        )
             : isLast
-                ? const BorderRadius.only(
-                    bottomLeft: Radius.circular(14.0),
-                    bottomRight: Radius.circular(14.0),
-                  )
-                : const BorderRadius.all(Radius.zero),
+            ? const BorderRadius.only(
+          bottomLeft: Radius.circular(14.0),
+          bottomRight: Radius.circular(14.0),
+        )
+            : const BorderRadius.all(Radius.zero),
       ),
-      tileColor: Theme.of(context)
-          .extension<AppColors>()
-          ?.accentColor
-          .withOpacity(0.85),
+      tileColor: const Color(0xFF453b35),
       leading: Icon(
         icon,
         size: 18.0,
@@ -49,37 +46,37 @@ Widget profileListTile(
 
 Widget utilityListTile(BuildContext context, IconData icon, String title,
     {bool isFirst = false,
-    bool isLast = false,
-    required void Function() onPressed}) {
+      bool isLast = false,
+      required void Function() onPressed}) {
   return Container(
     margin: const EdgeInsets.only(bottom: 2.0),
-    child: ListTile(
-      shape: RoundedRectangleBorder(
-        borderRadius: isFirst
-            ? const BorderRadius.only(
-                topLeft: Radius.circular(14.0),
-                topRight: Radius.circular(14.0),
-              )
-            : isLast
-                ? const BorderRadius.only(
-                    bottomLeft: Radius.circular(14.0),
-                    bottomRight: Radius.circular(14.0),
-                  )
-                : const BorderRadius.all(Radius.zero),
-      ),
-      tileColor: Theme.of(context).extension<AppColors>()?.accentColor,
-      leading: Icon(
-        icon,
-        size: 18.0,
-        color: Colors.white,
-      ),
-      title: Text(
-        title,
-        style: const TextStyle(color: Colors.white, fontSize: 12.0),
-      ),
-      trailing: GestureDetector(
-        onTap: onPressed,
-        child: const Icon(
+    child: GestureDetector(
+      onTap: onPressed,
+      child: ListTile(
+        shape: RoundedRectangleBorder(
+          borderRadius: isFirst
+              ? const BorderRadius.only(
+            topLeft: Radius.circular(14.0),
+            topRight: Radius.circular(14.0),
+          )
+              : isLast
+              ? const BorderRadius.only(
+            bottomLeft: Radius.circular(14.0),
+            bottomRight: Radius.circular(14.0),
+          )
+              : const BorderRadius.all(Radius.zero),
+        ),
+        tileColor: const Color(0xFF453b35),
+        leading: Icon(
+          icon,
+          size: 18.0,
+          color: Colors.white,
+        ),
+        title: Text(
+          title,
+          style: const TextStyle(color: Colors.white, fontSize: 12.0),
+        ),
+        trailing: const Icon(
           Icons.arrow_forward_ios_rounded,
           color: Colors.white,
           size: 12.0,
@@ -91,7 +88,7 @@ Widget utilityListTile(BuildContext context, IconData icon, String title,
 
 Widget notificationListTile(
     {required NotificationInstance notification,
-    required void Function() onDelete}) {
+      required void Function() onDelete}) {
   return Slidable(
     key: UniqueKey(),
     enabled: true,

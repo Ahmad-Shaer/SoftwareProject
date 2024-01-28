@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:traveler_nest/admin.dart';
 import 'package:traveler_nest/pages/bookings_page.dart';
 import 'package:traveler_nest/pages/calender_page.dart';
 import 'package:traveler_nest/pages/login_page.dart';
 import 'package:traveler_nest/pages/pages_wrapper.dart';
 import 'package:traveler_nest/pages/profile_page.dart';
 import 'package:traveler_nest/pages/sign_up_page.dart';
+import 'package:traveler_nest/providers/user_provider.dart';
 
 void main() {
   runApp(const TravelNestApp());
@@ -15,33 +18,39 @@ class TravelNestApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Travel Nest',
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => UserProvider()),
+      ],
+      child: MaterialApp(
+        title: 'Travel Nest',
 
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.light().copyWith(
-        primaryColor: AppColors().primaryColor,
-        backgroundColor: Colors.white,
-        secondaryHeaderColor: AppColors().secondaryColor,
-        focusColor: AppColors().accentColor,
-        indicatorColor: Colors.black,
-        iconTheme: IconThemeData(color: AppColors().primaryColor),
-        extensions: <ThemeExtension<dynamic>>[AppColors()],
-        inputDecorationTheme: InputDecorationTheme(
-          floatingLabelStyle: TextStyle(
-              color: AppColors().primaryColor,
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: const BorderRadius.all(Radius.circular(6.0)),
-            borderSide: BorderSide(
-              color: AppColors().primaryColor,
-              width: 2.0, // Change this color to your desired focus color
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData.light().copyWith(
+          primaryColor: AppColors().primaryColor,
+          backgroundColor: Colors.white,
+          secondaryHeaderColor: AppColors().secondaryColor,
+          focusColor: AppColors().accentColor,
+          indicatorColor: Colors.black,
+          iconTheme: IconThemeData(color: AppColors().primaryColor),
+          extensions: <ThemeExtension<dynamic>>[AppColors()],
+          inputDecorationTheme: InputDecorationTheme(
+            floatingLabelStyle: TextStyle(
+                color: AppColors().primaryColor,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: const BorderRadius.all(Radius.circular(6.0)),
+              borderSide: BorderSide(
+                color: AppColors().primaryColor,
+                width: 2.0, // Change this color to your desired focus color
+              ),
             ),
           ),
         ),
+        home: LoginPage(), //const SplashScreen(),
       ),
-      home: PagesWrapper(), //const SplashScreen(),
+
     );
   }
 }

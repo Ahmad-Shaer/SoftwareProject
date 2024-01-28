@@ -8,28 +8,28 @@ const BookingSchema = new Schema({
   from: String,
   to: String,
   hotelName: String,
-  discount: Number,
-  numberOfBeds: Number,
   cost: Number,
 }, { collection: 'bookings' });
 
 const Booking = model('Booking', BookingSchema);  // Registration for Booking model
 
 const { User : User} = require('./user.js');
+const { Hotel: Hotel} = require("./hotel.js");
 
 router.post('/bookings', async (req, res) => {
   try {
     const {
+    email,
       from,
       to,
-      numberOfBeds,
+      hotelName,
       cost,
     } = req.body;
-
+    console.log(email + " " +  hotelName + " " + from.toString() + " " + to.toString() + " " + cost.toString());
     const newBooking = new Booking({
       from,
       to,
-      numberOfBeds,
+      hotelName,
       cost,
     });
 

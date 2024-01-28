@@ -1,18 +1,61 @@
+import 'dart:convert';
+import 'dart:math';
 import 'dart:ui';
-
+import 'package:provider/provider.dart';
+import 'package:traveler_nest/providers/user_provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:traveler_nest/model/hotel.dart';
 import 'package:traveler_nest/pages/notifications_page.dart';
-
+import 'package:http/http.dart' as http;
+import 'package:traveler_nest/providers/user_provider.dart';
 import '../main.dart';
 import '../widgets/custom_cards.dart';
 import '../widgets/search_modal_sheet.dart';
 
-class HomePage extends StatelessWidget {
+
+class HomePage extends StatefulWidget {
   final void Function() goToProfilePage;
   const HomePage(this.goToProfilePage, {super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  List<Hotel> hotels = [];
+  @override
+  void initState() {
+    super.initState();
+    getHotels();
+  }
+
+  void getHotels() async {
+    List<Hotel> hotelsT = [];
+    try {
+      final response = await http.post(
+        Uri.parse('http://192.168.1.10:8000/hotel/all'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        List<dynamic> hotelList = json.decode(response.body);
+        for (var hotelData in hotelList) {
+          Hotel hotel = Hotel.fromJSON(json.encode(hotelData));
+          hotelsT.add(hotel);
+        }
+        setState(() {
+          hotels = hotelsT ;
+        });
+      } else {
+        print('Failed to fetch hotels. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +83,7 @@ class HomePage extends StatelessWidget {
             ),
           ),
         ),
-        title: const Row(
+        title: Row(
           children: [
             Icon(
               Icons.location_pin,
@@ -50,7 +93,7 @@ class HomePage extends StatelessWidget {
               width: 10,
             ),
             Text(
-              'Nablus',
+              context.read<UserProvider>().currentUser.city,
               style: TextStyle(
                 fontSize: 18.0,
                 color: Colors.white,
@@ -87,7 +130,7 @@ class HomePage extends StatelessWidget {
           IconButton(
             padding: EdgeInsets.zero,
             onPressed: () {
-              goToProfilePage();
+              widget.goToProfilePage();
             },
             icon: const Icon(
               Icons.account_circle_outlined,
@@ -109,9 +152,9 @@ class HomePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  "Hey, Ahmad! Tell us where you want to go",
-                  style: TextStyle(
+                Text(
+                  "Hey ${context.read<UserProvider>().currentUser.username} ! Tell us where you want to go",
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 28.0,
                   ),
@@ -211,14 +254,14 @@ class HomePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 20),
-            const Padding(
+            hotels.isEmpty? SizedBox() : const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 4.0),
               child: Text(
                 "The most relevant",
                 style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
               ),
             ),
-            Container(
+            hotels.isEmpty? SizedBox() : Container(
               width: double.infinity,
               child: CarouselSlider(
                 options: CarouselOptions(
@@ -240,52 +283,52 @@ class HomePage extends StatelessWidget {
                   enlargeFactor: 0.4,
                   enlargeStrategy: CenterPageEnlargeStrategy.zoom,
                 ),
-                items: [
-                  HomepageHotelCard(
-                    Hotel(
-                      imageSrcPath: 'assets/hotels/nablus/gold_0.png',
-                      hotelName: "The Golden Tree",
-                      availableRooms: ["4 guests", "2 bedrooms", "2 beds"],
-                      city: "Nablus",
-                      address: "Beit-Wazan",
-                      price: 316,
-                      rate: 4.96,
-                    ),
-                  ),
-                  HomepageHotelCard(
-                    Hotel(
-                      imageSrcPath: 'assets/hotels/nablus/khan_0.png',
-                      hotelName: "The Khan Hotel",
-                      availableRooms: ["2 yards", "2 bedrooms", "1 pool"],
-                      city: "Jenin",
-                      address: "Beit-Wazan",
-                      price: 510,
-                      rate: 4.82,
-                    ),
-                  ),
-                  HomepageHotelCard(
-                    Hotel(
-                      imageSrcPath: 'assets/hotels/nablus/teba_0.png',
-                      hotelName: "The Teba",
-                      availableRooms: ["2 yards", "2 bedrooms", "1 pool"],
-                      city: "Rammallah",
-                      address: "Beit-Wazan",
-                      price: 750,
-                      rate: 4.21,
-                    ),
-                  ),
-                  HomepageHotelCard(
-                    Hotel(
-                      imageSrcPath: 'assets/hotels/nablus/yass_0.png',
-                      hotelName: "The Teba",
-                      availableRooms: ["2 yards", "2 bathrooms", "1 pool"],
-                      city: "Rammallah",
-                      price: 190,
-                      rate: 3.89,
-                      address: "Beit-Wazan",
-                    ),
-                  ),
-                ],
+                items:List.generate(min(hotels.length,10), (index) => HomepageHotelCard(hotels[index])) //[
+                  // HomepageHotelCard(
+                  //   Hotel(
+                  //     imageSrcPath: 'assets/hotels/nablus/gold_0.png',
+                  //     hotelName: "The Golden Tree",
+                  //     availableRooms: ["4 guests", "2 bedrooms", "2 beds"],
+                  //     city: "Nablus",
+                  //     address: "Beit-Wazan",
+                  //     price: 316,
+                  //     rate: 4.96,
+                  //   ),
+                  // ),
+                  // HomepageHotelCard(
+                  //   Hotel(
+                  //     imageSrcPath: 'assets/hotels/nablus/khan_0.png',
+                  //     hotelName: "The Khan Hotel",
+                  //     availableRooms: ["2 yards", "2 bedrooms", "1 pool"],
+                  //     city: "Jenin",
+                  //     address: "Beit-Wazan",
+                  //     price: 510,
+                  //     rate: 4.82,
+                  //   ),
+                  // ),
+                  // HomepageHotelCard(
+                  //   Hotel(
+                  //     imageSrcPath: 'assets/hotels/nablus/teba_0.png',
+                  //     hotelName: "The Teba",
+                  //     availableRooms: ["2 yards", "2 bedrooms", "1 pool"],
+                  //     city: "Rammallah",
+                  //     address: "Beit-Wazan",
+                  //     price: 750,
+                  //     rate: 4.21,
+                  //   ),
+                  // ),
+                  // HomepageHotelCard(
+                  //   Hotel(
+                  //     imageSrcPath: 'assets/hotels/nablus/yass_0.png',
+                  //     hotelName: "The Teba",
+                  //     availableRooms: ["2 yards", "2 bathrooms", "1 pool"],
+                  //     city: "Rammallah",
+                  //     price: 190,
+                  //     rate: 3.89,
+                  //     address: "Beit-Wazan",
+                  //   ),
+                  // ),
+                ,//],
               ),
             ),
             const SizedBox(height: 20),

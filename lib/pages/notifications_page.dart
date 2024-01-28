@@ -1,5 +1,6 @@
 import 'dart:convert';
-
+import 'package:provider/provider.dart';
+import 'package:traveler_nest/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:traveler_nest/model/notification.dart';
@@ -40,10 +41,10 @@ class _NotificationsPageState extends State<NotificationsPage>
     ),
   ];
 
-  Future <List<NotificationInstance>> getNotifications() async {
+  Future <List<NotificationInstance>> getNotifications(BuildContext context) async {
     List<NotificationInstance> notifications = [];
     try {
-      final email = "ahmad@gmail.com";
+      final email = context.read<UserProvider>().currentUser.email;
       final response = await http.post(
         Uri.parse('http://192.168.1.10:8000/user/notification'),
         headers: <String, String>{
@@ -136,7 +137,7 @@ class _NotificationsPageState extends State<NotificationsPage>
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 child: FutureBuilder(
-                  future: getNotifications(),
+                  future: getNotifications(context),
                   builder: (context, snapshot) {
                     if(snapshot.connectionState == ConnectionState.done){
                       notifications = snapshot.data!;

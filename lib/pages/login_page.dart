@@ -1,8 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:traveler_nest/providers/user_provider.dart';
 import 'package:traveler_nest/pages/pages_wrapper.dart';
+import 'package:traveler_nest/providers/user_provider.dart';
 import 'package:traveler_nest/widgets/button.dart';
 import '../main.dart';
+import '../model/user.dart';
 import 'sign_up_page.dart';
 
 import 'dart:convert';
@@ -27,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
     final String password = passwordController.text;
 
     final response = await http.post(
-      Uri.parse('http://localhost:8000/user/login'),
+      Uri.parse('http://192.168.1.10:8000/user/login'),
       headers: <String, String>{
         'Content-Type': 'application/json',
       },
@@ -38,8 +43,29 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     if (response.statusCode == 200) {
-      // Login successful
-      Navigator.push(
+      print(jsonDecode(response.body));
+      Map<String, dynamic> responseData = jsonDecode(response.body);
+      responseData = responseData['existingUser'];
+      // Extracting data from the response
+      final String email = responseData['email'];
+      final String username = responseData['username'];
+      final String city = responseData['city'];
+      final String phoneNumber = responseData['phoneNumber'];
+      final String country = responseData['country'];
+
+      // Create a User object with the extracted data
+      User user = User(
+        email: email,
+        username: username,
+        city: city,
+        phoneNumber: phoneNumber,
+        country: country,
+      );
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setStringList('data', <String>[user.email, user.username, user.city, user.phoneNumber, user.country]);
+      // Initialize the UserProvider
+      context.read<UserProvider>().initializeUser(user);
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) => PagesWrapper(),
@@ -68,8 +94,36 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  void checkPreferences(BuildContext context) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final List<String>? dataList = prefs.getStringList('data');
+    if(dataList != null && dataList!.isNotEmpty){
+      User user = User(
+        email: dataList[0],
+        username: dataList[1],
+        city: dataList[2],
+        phoneNumber: dataList[3],
+        country: dataList[4],
+      );
+      context.read<UserProvider>().initializeUser(user);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PagesWrapper(),
+        ),
+      );
+
+
+    }
+  }
+  @override
+  void initState() {
+
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
+    checkPreferences(context);
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(

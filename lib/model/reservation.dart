@@ -14,10 +14,11 @@ class Reservation {
   DateTime to;
 
   static Reservation fromJSON(String jsonString) {
-    Map<String, dynamic> jsonMap = json.decode(jsonString);
-
-    DateTime fromDate = DateFormat("yyyy-MM-dd hh:mm:ss").parse(jsonMap['from']);
-    DateTime toDate = DateFormat("yyyy-MM-dd hh:mm:ss").parse(jsonMap['to']);
+    Map<dynamic, dynamic> jsonMap = json.decode(jsonString);
+    // DateTime fromDate = DateTime.parse(jsonMap['from']);
+    // DateTime toDate = DateTime.parse(jsonMap['to']);
+     DateTime fromDate = DateFormat("yyyy-MM-dd hh:mm:ss").parse(jsonMap['from']);
+     DateTime toDate = DateFormat("yyyy-MM-dd hh:mm:ss").parse(jsonMap['to']);
 
     return Reservation(
       hotelName :  jsonMap['hotelName'],

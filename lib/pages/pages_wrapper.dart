@@ -73,7 +73,7 @@ class _PagesWrapperState extends State<PagesWrapper> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const UserProfilePage()),
+                        builder: (context) =>  UserProfilePage()),
                   );
                 },
               ),

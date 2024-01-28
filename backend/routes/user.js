@@ -53,7 +53,6 @@ router.post('/login', async (req, res) => {
 
     // Check if user with provided email exists
     const existingUser = await User.findOne({ email });
-
     if (!existingUser) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
@@ -66,7 +65,7 @@ router.post('/login', async (req, res) => {
     }
 
     // Login successful
-    res.status(200).json({ message: 'Login successful', user: existingUser });
+    res.status(200).json({existingUser });
   } catch (error) {
     console.error('Error during login:', error);
     res.status(500).json({ message: 'Internal server error' });
