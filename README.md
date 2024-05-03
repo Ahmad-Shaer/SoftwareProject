@@ -13,5 +13,5 @@ availability and pricing updates for Palestinian hotels, secure payment processi
 recommendations, and a robust review system, offering travelers a seamless and enjoyable hotel
 booking experience within Palestine.
 
-our paer and demo video is included in the following drive link 
+our paper and demo video is included in the following drive link 
 https://drive.google.com/drive/folders/1VLBsf3lmiPq1_Ft4wR7nZhB05on5UnKV
